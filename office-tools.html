@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>직장인 필수 도구 모음 | ALL-LIFES.COM</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --bg: #f8fafc;
+  --card-bg: #ffffff;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --radius: 12px;
+  --shadow: 0 2px 8px rgba(0,0,0,.08);
+  --shadow-hover: 0 8px 24px rgba(0,0,0,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.topbar{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#1e3a8a,#2563eb);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 12px rgba(37,99,235,.3)}
+.topbar-title{color:#fff;font-size:1.1rem;font-weight:700;cursor:pointer}
+.topbar-site{color:#93c5fd;font-size:.8rem;font-weight:500}
+.screen{display:none;animation:fadeIn .25s ease}
+.screen.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.container{max-width:960px;margin:0 auto;padding:16px 16px 24px}
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:20px;font-size:.85rem;color:var(--text-muted)}
+.breadcrumb span{cursor:pointer;color:var(--primary)}
+.breadcrumb span:hover{text-decoration:underline}
+/* ── 홈 헤더 (히어로 + 마켓 통합) ── */
+#home-header{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);border-radius:14px;padding:14px 18px 12px;margin-bottom:18px;overflow:hidden}
+.hh-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+.hh-title{color:#fff;font-size:1rem;font-weight:800;letter-spacing:-.3px}
+.hh-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.hh-badge{background:rgba(255,255,255,.15);color:#dbeafe;padding:3px 9px;border-radius:20px;font-size:.68rem;font-weight:600;border:1px solid rgba(255,255,255,.18);white-space:nowrap}
+.hh-refresh{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:3px 10px;border-radius:20px;font-size:.68rem;cursor:pointer;font-weight:600;transition:background .15s;white-space:nowrap}
+.hh-refresh:hover{background:rgba(255,255,255,.28)}
+.hh-sub{color:#93c5fd;font-size:.7rem;margin-bottom:10px}
+.hh-market-label{font-size:.68rem;font-weight:600;color:#93c5fd;margin-bottom:6px}
+#market-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+#market-scroll::-webkit-scrollbar{display:none}
+.market-card{flex-shrink:0;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:8px 14px;min-width:108px;color:#fff}
+.market-card .mc-name{font-size:.66rem;color:#93c5fd;margin-bottom:2px}
+.market-card .mc-rate{font-size:.92rem;font-weight:700}
+.market-card .mc-change{font-size:.68rem;margin-top:2px}
+.mc-up{color:#4ade80}
+.mc-down{color:#f87171}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:32px}
+.cat-card{background:var(--card-bg);border-radius:var(--radius);padding:22px 18px;cursor:pointer;border:1px solid var(--border);border-top-width:4px;transition:transform .2s,box-shadow .2s;box-shadow:var(--shadow)}
+.cat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.cat-card .cat-icon{font-size:2rem;margin-bottom:10px}
+.cat-card .cat-name{font-size:1rem;font-weight:700;margin-bottom:4px}
+.cat-card .cat-count{font-size:.75rem;font-weight:600;color:#fff;background:var(--primary);display:inline-block;padding:2px 10px;border-radius:20px;margin-top:8px}
+.cat-tool-list{list-style:none;margin:10px 0 6px;padding:0;display:flex;flex-direction:column;gap:4px}
+.cat-tool-list li{font-size:.78rem;color:var(--text-muted);padding:3px 0;border-bottom:1px dashed #f1f5f9;line-height:1.4}
+.cat-tool-list li:last-child{border-bottom:none}
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:32px}
+.tool-card{background:var(--card-bg);border-radius:var(--radius);padding:18px 16px;cursor:pointer;border:1px solid var(--border);transition:transform .2s,box-shadow .2s,border-color .2s;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:flex-start;min-height:160px}
+.tool-card:hover{border-color:var(--primary)}
+.tool-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.tool-card .tool-icon{font-size:1.6rem;margin-bottom:8px}
+.tool-card .tool-name{font-size:.92rem;font-weight:600}
+.tool-card .tool-badge{font-size:.68rem;background:#fef3c7;color:#d97706;border-radius:8px;padding:2px 6px;margin-top:4px;font-weight:600}
+.tool-card .tool-desc{font-size:.78rem;color:var(--text-muted);margin-top:8px;line-height:1.55;flex:1}
+.tool-card .tool-arrow{font-size:.75rem;color:var(--primary);font-weight:600;margin-top:10px;opacity:0;transition:opacity .2s}
+.tool-card:hover .tool-arrow{opacity:1}
+.tool-area{background:var(--card-bg);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.tool-area h2{font-size:1.3rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+label{display:block;font-size:.85rem;font-weight:600;color:var(--text-muted);margin-bottom:5px;margin-top:14px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:.92rem;background:#fff;color:var(--text);outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--primary)}
+textarea{resize:vertical;min-height:120px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;transition:background .2s,transform .1s}
+.btn:hover{background:var(--primary-dark)}
+.btn:active{transform:scale(.97)}
+.btn-outline{background:transparent;color:var(--primary);border:1px solid var(--primary)}
+.btn-outline:hover{background:#eff6ff}
+.btn-sm{padding:6px 12px;font-size:.8rem}
+.btn-green{background:#10b981}.btn-green:hover{background:#059669}
+.btn-red{background:#ef4444}.btn-red:hover{background:#dc2626}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.result-box{background:#f1f5f9;border-radius:8px;padding:16px;margin-top:16px;font-size:.9rem;word-break:break-all}
+.result-box pre{white-space:pre-wrap;font-family:inherit}
+table{width:100%;border-collapse:collapse;margin-top:16px}
+th,td{padding:10px 12px;border:1px solid var(--border);font-size:.88rem;text-align:left}
+th{background:#f8fafc;font-weight:600}
+.tag{display:inline-block;background:#f1f5f9;color:var(--text-muted);border-radius:6px;padding:2px 8px;font-size:.75rem;margin:2px}
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid #e2e8f0;border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.tab-btn{padding:7px 14px;border:1px solid var(--border);background:#fff;border-radius:20px;font-size:.82rem;cursor:pointer;transition:all .2s}
+.tab-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.news-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;transition:box-shadow .2s;cursor:pointer}
+.news-card:hover{box-shadow:var(--shadow-hover)}
+.news-title{font-size:.92rem;font-weight:600;margin-bottom:6px;color:var(--text)}
+.news-meta{font-size:.77rem;color:var(--text-muted);display:flex;gap:10px}
+.palette-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.palette-card{background:var(--card-bg);border-radius:var(--radius);padding:18px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.palette-swatches{display:flex;gap:6px;margin:10px 0}
+.swatch{width:40px;height:40px;border-radius:8px;cursor:pointer;border:2px solid rgba(0,0,0,.08);transition:transform .15s}
+.swatch:hover{transform:scale(1.15)}
+.palette-name{font-weight:700;font-size:.95rem}
+.palette-desc{font-size:.78rem;color:var(--text-muted);margin-top:4px}
+.coin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.coin-card{background:var(--card-bg);border-radius:var(--radius);padding:16px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.coin-name{font-weight:700;font-size:.95rem;margin-bottom:6px}
+.coin-usd{font-size:1.1rem;font-weight:700}
+.coin-krw{font-size:.82rem;color:var(--text-muted)}
+.coin-change{font-size:.85rem;font-weight:600;margin-top:4px}
+.exchange-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:16px}
+.exch-card{background:#f8fafc;border-radius:10px;padding:14px;border:1px solid var(--border);text-align:center}
+.exch-flag{font-size:1.5rem}
+.exch-code{font-weight:700;font-size:.92rem;margin:4px 0}
+.exch-rate{font-size:1rem;font-weight:700;color:var(--primary)}
+.stocks-links{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.stock-link{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;text-decoration:none;color:var(--text);transition:box-shadow .2s;font-size:.85rem;font-weight:600}
+.stock-link:hover{box-shadow:var(--shadow-hover);color:var(--primary)}
+.template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.template-card{background:var(--card-bg);border-radius:var(--radius);padding:18px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.template-card .t-icon{font-size:2rem;margin-bottom:8px}
+.template-card .t-name{font-weight:700;font-size:.95rem;margin-bottom:4px}
+.template-card .t-desc{font-size:.8rem;color:var(--text-muted);margin-bottom:10px}
+.img-preview{max-width:100%;border-radius:8px;margin-top:12px}
+.upload-area{border:2px dashed var(--border);border-radius:10px;padding:30px;text-align:center;cursor:pointer;transition:border-color .2s;color:var(--text-muted)}
+.upload-area:hover{border-color:var(--primary);color:var(--primary)}
+.range-group{display:flex;align-items:center;gap:12px}
+.range-group input[type=range]{flex:1}
+.range-group span{min-width:40px;text-align:right;font-weight:600}
+.info-box{background:#eff6ff;border-left:4px solid var(--primary);padding:12px 16px;border-radius:0 8px 8px 0;font-size:.85rem;color:#1e40af;margin-top:12px}
+.warning-box{background:#fffbeb;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:0 8px 8px 0;font-size:.85rem;color:#92400e;margin-top:12px}
+.salary-table td:last-child{font-weight:600}
+.total-row td{background:#eff6ff;font-weight:700;color:var(--primary)}
+/* ── 태블릿 (768px 이하) ── */
+@media(max-width:768px){
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .tool-grid{grid-template-columns:repeat(2,1fr)}
+}
+/* ── 모바일 (480px 이하) ── */
+@media(max-width:480px){
+  .topbar{padding:10px 14px}
+  .topbar-title{font-size:.92rem}
+  .topbar-site{font-size:.7rem}
+  .container{padding:14px 12px}
+  #home-header{padding:12px 14px 10px;border-radius:10px;margin-bottom:14px}
+  .hh-top{flex-direction:column;align-items:flex-start;gap:6px}
+  .hh-title{font-size:.9rem}
+  .hh-right{gap:4px}
+  .hh-badge{font-size:.62rem;padding:2px 7px}
+  .hh-refresh{font-size:.62rem;padding:3px 8px}
+  .hh-sub{font-size:.65rem}
+  .market-card{min-width:96px;padding:7px 11px}
+  .market-card .mc-rate{font-size:.82rem}
+  .cat-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .cat-card{padding:14px 12px}
+  .cat-icon{font-size:1.5rem;margin-bottom:6px}
+  .cat-name{font-size:.88rem}
+  .cat-tool-list li{font-size:.72rem}
+  .cat-count{font-size:.66rem;padding:2px 7px}
+  .tool-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .tool-card{padding:14px 12px;min-height:130px}
+  .tool-card .tool-icon{font-size:1.3rem;margin-bottom:6px}
+  .tool-card .tool-name{font-size:.82rem}
+  .tool-card .tool-desc{font-size:.72rem}
+  .coin-grid{grid-template-columns:repeat(2,1fr)}
+  .exchange-grid{grid-template-columns:repeat(2,1fr)}
+  .palette-grid{grid-template-columns:repeat(1,1fr)}
+  .template-grid{grid-template-columns:repeat(1,1fr)}
+  table{font-size:.78rem}
+  th,td{padding:7px 8px}
+  .btn{padding:9px 14px;font-size:.82rem}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-title" onclick="goHome()">🛠️ 직장인 도구 모음</div>
+  <div class="topbar-site">ALL-LIFES.COM</div>
+</div>
+
+<!-- HOME SCREEN -->
+<div id="screen-home" class="screen active">
+<div class="container">
+  <div id="home-header">
+    <div class="hh-top">
+      <div class="hh-title">🛠️ 직장인 필수 도구 모음</div>
+      <div class="hh-right">
+        <span class="hh-badge">🔒 완전 보안</span>
+        <span class="hh-badge">💰 100% 무료</span>
+        <span class="hh-badge">⚡ 설치 불필요</span>
+        <button class="hh-refresh" onclick="renderMarketWidget()">🔄 새로고침</button>
+      </div>
+    </div>
+    <div class="hh-sub">설치 없이 브라우저에서 바로 사용 · 모든 파일은 내 PC에서만 처리</div>
+    <div class="hh-market-label">📊 실시간 시장 현황</div>
+    <div id="market-scroll">
+      <div class="market-card"><div class="mc-name">로딩 중...</div><div class="mc-rate"><span class="spinner"></span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-grid">
+    <div class="cat-card" style="border-top-color:#6366f1" onclick="showCategory('image')">
+      <div class="cat-icon">🖼️</div>
+      <div class="cat-name">이미지 도구</div>
+      <ul class="cat-tool-list">
+        <li>🗜️ 이미지 압축 — 용량 줄이기</li>
+        <li>🔄 이미지 형식 변환 — JPG·PNG·WebP</li>
+        <li>↔️ 이미지 크기 조절 — 픽셀/비율</li>
+        <li>🔃 이미지 회전 / 뒤집기</li>
+        <li>📑 이미지 → PDF 변환</li>
+      </ul>
+      <div class="cat-count">5가지 도구</div>
+    </div>
+    <div class="cat-card" style="border-top-color:#0ea5e9" onclick="showCategory('pdf')">
+      <div class="cat-icon">📄</div>
+      <div class="cat-name">PDF 도구</div>
+      <ul class="cat-tool-list">
+        <li>📑 이미지 → PDF 만들기</li>
+        <li>📦 PDF 용량 압축</li>
+        <li>🖼️ PDF → 이미지 추출</li>
+        <li>🔗 PDF 병합</li>
+        <li>✂️ PDF 분해</li>
+      </ul>
+      <div class="cat-count">5가지 도구</div>
+    </div>
+    <div class="cat-card" style="border-top-color:#10b981" onclick="showCategory('text')">
+      <div class="cat-icon">📝</div>
+      <div class="cat-name">텍스트 도구</div>
+      <ul class="cat-tool-list">
+        <li>🔢 글자 수 세기 — 바이트/단어 포함</li>
+        <li>🧹 텍스트 정리 — 공백·줄바꿈 정리</li>
+        <li>🔡 텍스트 변환 — 대소문자·역순</li>
+        <li>{} JSON 정리기 — 예쁘게/압축</li>
+      </ul>
+      <div class="cat-count">4가지 도구</div>
+    </div>
+    <div class="cat-card" style="border-top-color:#f59e0b" onclick="showCategory('office')">
+      <div class="cat-icon">💼</div>
+      <div class="cat-name">업무 도구</div>
+      <ul class="cat-tool-list">
+        <li>📲 QR코드 생성 — URL·텍스트</li>
+        <li>⚖️ 단위 변환 — 길이·무게·온도 등</li>
+        <li>📅 날짜 계산 / D-day 카운터</li>
+        <li>🎨 색상 코드 변환 — HEX·RGB·HSL</li>
+      </ul>
+      <div class="cat-count">4가지 도구</div>
+    </div>
+    <div class="cat-card" style="border-top-color:#ec4899" onclick="showCategory('calc')">
+      <div class="cat-icon">🧮</div>
+      <div class="cat-name">계산 도구</div>
+      <ul class="cat-tool-list">
+        <li>💵 연봉 계산기 — 세후 실수령액 ★</li>
+        <li>📋 퇴직금 계산기 ★</li>
+        <li>🧾 부가세(VAT) 계산기</li>
+        <li>🏷️ 할인 계산기 — 역할인 포함</li>
+        <li>💰 이자 계산기 — 단리·복리</li>
+      </ul>
+      <div class="cat-count">5가지 도구</div>
+    </div>
+    <div class="cat-card" style="border-top-color:#f97316" onclick="showCategory('market')">
+      <div class="cat-icon">📊</div>
+      <div class="cat-name">시장 정보</div>
+      <ul class="cat-tool-list">
+        <li>💱 실시간 환율 — USD·EUR·JPY 등</li>
+        <li>₿ 코인 시세 — BTC·ETH·XRP 등</li>
+        <li>📈 주가 정보 — 국내·미국 종목</li>
+      </ul>
+      <div class="cat-count">3가지 도구</div>
+    </div>
+    <div class="cat-card" style="border-top-color:#e11d48" onclick="showCategory('news')">
+      <div class="cat-icon">📰</div>
+      <div class="cat-name">뉴스 모음</div>
+      <ul class="cat-tool-list">
+        <li>💻 IT / 인공지능 / 테크</li>
+        <li>💹 경제 / 금융 / 주식</li>
+        <li>👔 취업 / 직장인 / 채용</li>
+        <li>🏠 부동산 / 아파트 / 전세</li>
+        <li>🌏 글로벌 / 해외 뉴스</li>
+      </ul>
+      <div class="cat-count">실시간 뉴스</div>
+    </div>
+    <div class="cat-card" style="border-top-color:#7c3aed" onclick="showCategory('design')">
+      <div class="cat-icon">🎨</div>
+      <div class="cat-name">디자인 도구</div>
+      <ul class="cat-tool-list">
+        <li>🖌️ PPT 색상 조합 — 20가지 추천 팔레트</li>
+        <li>🖼️ PPT 무료 템플릿 사이트 모음</li>
+      </ul>
+      <div class="cat-count">2가지 도구</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- CATEGORY SCREEN -->
+<div id="screen-category" class="screen">
+<div class="container">
+  <div class="breadcrumb">
+    <span onclick="goHome()">홈</span> › <span id="cat-breadcrumb-name"></span>
+  </div>
+  <div id="cat-header" style="margin-bottom:20px">
+    <h2 id="cat-header-title" style="font-size:1.3rem;font-weight:800;margin-bottom:4px"></h2>
+    <p id="cat-header-desc" style="font-size:.88rem;color:var(--text-muted)">원하는 도구를 클릭하면 바로 시작됩니다.</p>
+  </div>
+  <div id="cat-tool-grid" class="tool-grid"></div>
+</div>
+</div>
+
+<!-- TOOL SCREEN -->
+<div id="screen-tool" class="screen">
+<div class="container">
+  <div class="breadcrumb">
+    <span onclick="goHome()">홈</span> › <span id="tool-breadcrumb-cat" style="cursor:pointer" onclick="backToCategory()"></span> › <span id="tool-breadcrumb-name" style="color:var(--text);cursor:default"></span>
+  </div>
+  <div id="tool-content"></div>
+</div>
+</div>
+
+<script>
+// ======== NAVIGATION ========
+let currentCat = '';
+const catNames = {image:'이미지 도구',pdf:'PDF 도구',text:'텍스트 도구',office:'업무 도구',calc:'계산 도구',market:'시장 정보',news:'뉴스 모음',design:'디자인 도구'};
+const catTools = {
+  image:[
+    {id:'img-compress',icon:'🗜️',name:'이미지 압축',desc:'JPG·PNG·WebP 파일을 브라우저에서 바로 압축. 서버 전송 없이 안전하게 용량 축소'},
+    {id:'img-convert',icon:'🔄',name:'이미지 형식 변환',desc:'JPG ↔ PNG ↔ WebP 자유롭게 변환. 이메일 첨부·문서 삽입에 맞는 포맷으로'},
+    {id:'img-resize',icon:'↔️',name:'이미지 크기 조절',desc:'비율(%) 또는 가로×세로 픽셀 지정으로 해상도 변경. 여러 파일 동시 처리 가능'},
+    {id:'img-rotate',icon:'🔃',name:'이미지 회전/뒤집기',desc:'90°·180°·270° 회전 및 좌우·상하 뒤집기. 스캔 문서 방향 교정에 유용'},
+    {id:'img-to-pdf',icon:'📑',name:'이미지 → PDF 변환',desc:'여러 이미지를 순서대로 하나의 PDF로 합치기. 영수증·사진 보고서 제출에 편리'}
+  ],
+  pdf:[
+    {id:'img-to-pdf',icon:'📑',name:'이미지 → PDF 만들기',desc:'JPG·PNG 이미지들을 PDF 1개로 묶기. A4·A3·Letter 크기 및 여백 설정 가능'},
+    {id:'pdf-compress',icon:'📦',name:'PDF 용량 줄이기',desc:'PDF를 이미지로 재렌더링하여 압축. 이미지 많은 스캔 PDF에 효과적'},
+    {id:'pdf-to-img',icon:'🖼️',name:'PDF → 이미지 추출',desc:'PDF 각 페이지를 JPG 또는 PNG로 변환. 페이지 범위 지정 및 해상도 선택 가능'},
+    {id:'pdf-merge',icon:'🔗',name:'PDF 병합',desc:'여러 PDF 파일을 순서대로 하나의 PDF로 합치기. 드래그로 순서 변경 가능'},
+    {id:'pdf-split',icon:'✂️',name:'PDF 분해',desc:'PDF를 페이지별 또는 범위(1-3, 4-6)로 분리하여 개별 파일로 저장'}
+  ],
+  text:[
+    {id:'text-counter',icon:'🔢',name:'글자 수 세기',desc:'전체 글자·공백 제외·단어·줄·바이트 수 실시간 분석. 기획서·보고서 작성에 필수'},
+    {id:'text-clean',icon:'🧹',name:'텍스트 정리',desc:'연속 줄바꿈·공백 정리, 앞뒤 공백 제거, 특수문자 일괄 삭제. 복붙 텍스트 정리에 유용'},
+    {id:'text-case',icon:'🔡',name:'텍스트 변환',desc:'대문자·소문자·타이틀 케이스 변환, 텍스트 역순, 줄바꿈→공백 등 다양한 변환'},
+    {id:'json-format',icon:'{}',name:'JSON 정리기',desc:'JSON을 보기 좋게 들여쓰기 정리(Prettify) 또는 한 줄로 압축(Minify). 개발 업무에 필수'}
+  ],
+  office:[
+    {id:'qr-gen',icon:'📲',name:'QR코드 생성',desc:'URL·텍스트·연락처 등 무엇이든 QR코드로 즉시 생성 후 PNG 다운로드'},
+    {id:'unit-conv',icon:'⚖️',name:'단위 변환',desc:'길이·무게·넓이·온도·데이터·속도 단위를 실시간 변환. 업무 중 단위 헷갈릴 때'},
+    {id:'dday',icon:'📅',name:'날짜 계산 / D-day',desc:'두 날짜 사이 일수·주·개월·년 계산. 오늘 기준 D-day 카운터로 납기·행사 관리'},
+    {id:'color-tool',icon:'🎨',name:'색상 코드 변환',desc:'HEX ↔ RGB ↔ HSL 색상 코드 즉시 변환 및 클립보드 복사. 디자인 작업에 활용'}
+  ],
+  calc:[
+    {id:'salary-calc',icon:'💵',name:'연봉 계산기 ★',desc:'국민연금·건강보험·고용보험·소득세 공제 후 예상 월 실수령액 계산 (2024년 기준)',badge:'인기'},
+    {id:'severance-calc',icon:'📋',name:'퇴직금 계산기 ★',desc:'입사일·퇴직일·월급 입력으로 퇴직금 예상액 자동 계산. 근로기준법 기준',badge:'NEW'},
+    {id:'tax-calc',icon:'🧾',name:'부가세(VAT) 계산기',desc:'공급가액 → 부가세 포함 금액, 또는 역으로 공급가액 추출. 세율 선택 가능'},
+    {id:'discount-calc',icon:'🏷️',name:'할인 계산기',desc:'할인율 적용 최종가격 및 역할인(판매가→원가) 계산. 쇼핑·견적 업무에 편리'},
+    {id:'interest-calc',icon:'💰',name:'이자 계산기',desc:'원금·연이율·기간으로 단리·복리 이자 및 원리금 동시 계산. 예·적금 비교에 활용'}
+  ],
+  market:[
+    {id:'exchange',icon:'💱',name:'실시간 환율',desc:'USD·EUR·JPY·CNY·GBP 등 주요 통화의 원화 환율 실시간 조회 및 금액 변환기 제공'},
+    {id:'crypto',icon:'₿',name:'코인 시세',desc:'비트코인·이더리움·리플·솔라나 등 주요 코인의 달러·원화 가격 및 24시간 등락 확인'},
+    {id:'stocks',icon:'📈',name:'주가 정보',desc:'삼성전자·SK하이닉스·NAVER 등 국내외 주요 종목 네이버금융·야후파이낸스 바로가기'}
+  ],
+  news:[
+    {id:'news-hub',icon:'📰',name:'실시간 뉴스 모음',desc:'IT/테크·경제/금융·취업·부동산·글로벌 5개 카테고리 탭으로 분류된 실시간 뉴스 피드'}
+  ],
+  design:[
+    {id:'ppt-colors',icon:'🖌️',name:'PPT 색상 조합 추천',desc:'비즈니스·크리에이티브·모던·따뜻한·차가운 분위기별 20가지 전문 색상 팔레트. 클릭으로 HEX 복사'},
+    {id:'ppt-templates',icon:'🖼️',name:'PPT 무료 템플릿 사이트',desc:'Slidesgo·미리캔버스·망고보드 등 무료 PPT 템플릿·이미지·폰트 사이트 12곳 바로가기'}
+  ]
+};
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goHome(){showScreen('home');}
+const catDescs={
+  image:'이미지 파일을 압축·변환·크기조절·회전하거나 PDF로 만들 수 있습니다.',
+  pdf:'PDF 파일 압축, PDF→이미지 추출, 이미지→PDF 변환을 제공합니다.',
+  text:'텍스트 글자 수 세기, 정리, 변환, JSON 포맷팅을 지원합니다.',
+  office:'QR코드 생성, 단위 변환, 날짜 계산, 색상 코드 변환을 제공합니다.',
+  calc:'연봉·퇴직금·부가세·할인·이자를 빠르게 계산합니다.',
+  market:'환율·코인·주가 실시간 시장 정보를 확인합니다.',
+  news:'IT·경제·취업·부동산·글로벌 실시간 뉴스를 카테고리별로 모아봅니다.',
+  design:'PPT 색상 팔레트 추천과 무료 템플릿 사이트 모음을 제공합니다.'
+};
+function showCategory(cat){
+  currentCat=cat;
+  document.getElementById('cat-breadcrumb-name').textContent=catNames[cat];
+  document.getElementById('cat-header-title').textContent=catNames[cat];
+  document.getElementById('cat-header-desc').textContent=(catDescs[cat]||'원하는 도구를 클릭하면 바로 시작됩니다.');
+  const grid=document.getElementById('cat-tool-grid');
+  grid.innerHTML='';
+  (catTools[cat]||[]).forEach(t=>{
+    const d=document.createElement('div');
+    d.className='tool-card';
+    d.innerHTML=`
+      <div class="tool-icon">${t.icon}</div>
+      <div class="tool-name">${t.name}</div>
+      ${t.badge?`<div class="tool-badge">${t.badge}</div>`:''}
+      <div class="tool-desc">${t.desc||''}</div>
+      <div class="tool-arrow">바로 시작 →</div>`;
+    d.onclick=()=>showTool(cat,t.id,t.name);
+    grid.appendChild(d);
+  });
+  showScreen('category');
+}
+function backToCategory(){showCategory(currentCat);}
+function showTool(cat,toolId,toolName){
+  currentCat=cat;
+  document.getElementById('tool-breadcrumb-cat').textContent=catNames[cat];
+  document.getElementById('tool-breadcrumb-name').textContent=toolName;
+  document.getElementById('tool-content').innerHTML=renderTool(toolId);
+  showScreen('tool');
+  if(toolId==='qr-gen')initQR();
+  if(toolId==='news-hub')loadNews('all');
+  if(toolId==='exchange')loadExchangeRates();
+  if(toolId==='crypto')loadCrypto();
+  if(toolId==='ppt-colors')renderColorPalettes('전체');
+  if(toolId==='pdf-merge'){pmFiles=[];renderPmList();}
+  if(toolId==='pdf-split'){psData=null;psTotalPages=0;psMode='all';}
+}
+
+// ======== MARKET WIDGET ========
+async function renderMarketWidget(){
+  const scroll=document.getElementById('market-scroll');
+  scroll.innerHTML='<div class="market-card"><div class="mc-name">로딩 중...</div><div class="mc-rate"><span class="spinner"></span></div></div>';
+  try{
+    const [fxRes,cryptoRes]=await Promise.allSettled([
+      fetch('https://api.frankfurter.app/latest?from=USD&to=KRW,JPY').then(r=>r.json()),
+      fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=krw&include_24hr_change=true').then(r=>r.json())
+    ]);
+    scroll.innerHTML='';
+    const cards=[];
+    if(fxRes.status==='fulfilled'){
+      const fx=fxRes.value;
+      const krw=fx.rates.KRW||0;
+      const jpy=fx.rates.JPY||0;
+      cards.push({name:'USD/KRW',rate:(krw).toLocaleString('ko',{maximumFractionDigits:0})+'원',change:null});
+      if(fx.rates.KRW&&fx.rates.JPY){
+        const eurKrw=krw;
+        cards.push({name:'100JPY/KRW',rate:(krw/jpy*100).toLocaleString('ko',{maximumFractionDigits:0})+'원',change:null});
+      }
+    }
+    if(cryptoRes.status==='fulfilled'){
+      const c=cryptoRes.value;
+      if(c.bitcoin){
+        const btc=c.bitcoin;
+        cards.push({name:'BTC/KRW',rate:(btc.krw/1e6).toFixed(2)+'M원',change:btc.krw_24h_change});
+      }
+      if(c.ethereum){
+        const eth=c.ethereum;
+        cards.push({name:'ETH/KRW',rate:(eth.krw/1e4).toFixed(0)+'만원',change:eth.krw_24h_change});
+      }
+    }
+    if(cards.length===0){scroll.innerHTML='<div class="market-card"><div class="mc-name">데이터 없음</div></div>';return;}
+    cards.forEach(card=>{
+      const div=document.createElement('div');
+      div.className='market-card';
+      let changeHtml='';
+      if(card.change!==null&&card.change!==undefined){
+        const up=card.change>=0;
+        changeHtml=`<div class="mc-change ${up?'mc-up':'mc-down'}">${up?'▲':'▼'} ${Math.abs(card.change).toFixed(2)}%</div>`;
+      }
+      div.innerHTML=`<div class="mc-name">${card.name}</div><div class="mc-rate">${card.rate}</div>${changeHtml}`;
+      scroll.appendChild(div);
+    });
+  }catch(e){scroll.innerHTML='<div class="market-card"><div class="mc-name">오류 발생</div></div>';}
+}
+
+// ======== TOOL RENDERER ========
+function renderTool(id){
+  switch(id){
+    case 'img-compress': return toolImgCompress();
+    case 'img-convert': return toolImgConvert();
+    case 'img-resize': return toolImgResize();
+    case 'img-rotate': return toolImgRotate();
+    case 'img-to-pdf': return toolImgToPdf();
+    case 'pdf-compress': return toolPdfCompress();
+    case 'pdf-to-img': return toolPdfToImg();
+    case 'pdf-merge': return toolPdfMerge();
+    case 'pdf-split': return toolPdfSplit();
+    case 'text-counter': return toolTextCounter();
+    case 'text-clean': return toolTextClean();
+    case 'text-case': return toolTextCase();
+    case 'json-format': return toolJsonFormat();
+    case 'qr-gen': return toolQrGen();
+    case 'unit-conv': return toolUnitConv();
+    case 'dday': return toolDday();
+    case 'color-tool': return toolColorTool();
+    case 'tax-calc': return toolTaxCalc();
+    case 'salary-calc': return toolSalaryCalc();
+    case 'discount-calc': return toolDiscountCalc();
+    case 'interest-calc': return toolInterestCalc();
+    case 'severance-calc': return toolSeveranceCalc();
+    case 'exchange': return toolExchange();
+    case 'crypto': return toolCrypto();
+    case 'stocks': return toolStocks();
+    case 'news-hub': return toolNewsHub();
+    case 'ppt-colors': return toolPptColors();
+    case 'ppt-templates': return toolPptTemplates();
+    default: return '<div class="tool-area"><p>준비 중입니다.</p></div>';
+  }
+}
+
+// ======== IMAGE TOOLS ========
+function toolImgCompress(){return `<div class="tool-area">
+<h2>🗜️ 이미지 압축</h2>
+<div class="upload-area" onclick="document.getElementById('ic-input').click()">
+  📁 이미지 파일을 클릭하거나 드래그하여 업로드
+  <input type="file" id="ic-input" accept="image/*" style="display:none" onchange="doImgCompress(this)">
+</div>
+<label>압축 품질</label>
+<div class="range-group"><input type="range" id="ic-quality" min="10" max="100" value="75" oninput="document.getElementById('ic-qval').textContent=this.value+'%'"><span id="ic-qval">75%</span></div>
+<div id="ic-result"></div></div>`;}
+
+function doImgCompress(inp){
+  const file=inp.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=new Image();
+    img.onload=()=>{
+      const q=parseInt(document.getElementById('ic-quality').value)/100;
+      const canvas=document.createElement('canvas');
+      canvas.width=img.width;canvas.height=img.height;
+      canvas.getContext('2d').drawImage(img,0,0);
+      canvas.toBlob(blob=>{
+        const url=URL.createObjectURL(blob);
+        const orig=(file.size/1024).toFixed(1);
+        const comp=(blob.size/1024).toFixed(1);
+        const ratio=((1-blob.size/file.size)*100).toFixed(1);
+        document.getElementById('ic-result').innerHTML=`
+          <div class="result-box">
+            <p>원본: ${orig}KB → 압축: ${comp}KB (${ratio}% 감소)</p>
+          </div>
+          <img src="${url}" class="img-preview" style="max-height:220px">
+          <div class="btn-row"><a href="${url}" download="compressed.jpg" class="btn btn-green">⬇ 다운로드</a></div>`;
+      },'image/jpeg',q);
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function toolImgConvert(){return `<div class="tool-area">
+<h2>🔄 이미지 형식 변환</h2>
+<div class="upload-area" onclick="document.getElementById('iconv-input').click()">
+  📁 이미지 파일 업로드
+  <input type="file" id="iconv-input" accept="image/*" style="display:none" onchange="doImgConvert(this)">
+</div>
+<label>변환 형식</label>
+<select id="iconv-fmt"><option value="image/jpeg">JPEG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select>
+<div id="iconv-result"></div></div>`;}
+
+function doImgConvert(inp){
+  const file=inp.files[0];if(!file)return;
+  const fmt=document.getElementById('iconv-fmt').value;
+  const ext=fmt.split('/')[1];
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=new Image();
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      canvas.width=img.width;canvas.height=img.height;
+      canvas.getContext('2d').drawImage(img,0,0);
+      canvas.toBlob(blob=>{
+        const url=URL.createObjectURL(blob);
+        document.getElementById('iconv-result').innerHTML=`
+          <img src="${url}" class="img-preview" style="max-height:220px">
+          <div class="btn-row"><a href="${url}" download="converted.${ext}" class="btn btn-green">⬇ 다운로드 (${ext.toUpperCase()})</a></div>`;
+      },fmt,0.92);
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function toolImgResize(){return `<div class="tool-area">
+<h2>↔️ 이미지 크기 조절</h2>
+<div class="upload-area" onclick="document.getElementById('ir-input').click()">
+  📁 이미지 파일 업로드
+  <input type="file" id="ir-input" accept="image/*" style="display:none" onchange="loadImgResize(this)">
+</div>
+<label>너비 (px)</label><input type="number" id="ir-w" placeholder="너비">
+<label>높이 (px)</label><input type="number" id="ir-h" placeholder="높이 (비워두면 비율 유지)">
+<div class="btn-row"><button class="btn" onclick="doImgResize()">크기 조절</button></div>
+<div id="ir-result"></div></div>`;}
+
+let _irImg=null;
+function loadImgResize(inp){
+  const file=inp.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    _irImg=new Image();
+    _irImg.onload=()=>{
+      document.getElementById('ir-w').value=_irImg.width;
+      document.getElementById('ir-h').value=_irImg.height;
+    };
+    _irImg.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function doImgResize(){
+  if(!_irImg){alert('이미지를 먼저 업로드하세요');return;}
+  let w=parseInt(document.getElementById('ir-w').value);
+  let h=parseInt(document.getElementById('ir-h').value);
+  if(!w){alert('너비를 입력하세요');return;}
+  if(!h){h=Math.round(_irImg.height*w/_irImg.width);}
+  const canvas=document.createElement('canvas');
+  canvas.width=w;canvas.height=h;
+  canvas.getContext('2d').drawImage(_irImg,0,0,w,h);
+  canvas.toBlob(blob=>{
+    const url=URL.createObjectURL(blob);
+    document.getElementById('ir-result').innerHTML=`
+      <div class="result-box">${w}×${h}px로 변환됨</div>
+      <img src="${url}" class="img-preview" style="max-height:220px">
+      <div class="btn-row"><a href="${url}" download="resized.png" class="btn btn-green">⬇ 다운로드</a></div>`;
+  },'image/png');
+}
+
+function toolImgRotate(){return `<div class="tool-area">
+<h2>🔃 이미지 회전/뒤집기</h2>
+<div class="upload-area" onclick="document.getElementById('irot-input').click()">
+  📁 이미지 파일 업로드
+  <input type="file" id="irot-input" accept="image/*" style="display:none" onchange="loadImgRotate(this)">
+</div>
+<div class="btn-row" style="margin-top:16px">
+  <button class="btn btn-outline" onclick="doRotate(90)">↻ 90° 회전</button>
+  <button class="btn btn-outline" onclick="doRotate(-90)">↺ -90° 회전</button>
+  <button class="btn btn-outline" onclick="doFlip('h')">↔ 좌우 반전</button>
+  <button class="btn btn-outline" onclick="doFlip('v')">↕ 상하 반전</button>
+</div>
+<canvas id="irot-canvas" style="display:none"></canvas>
+<div id="irot-result"></div></div>`;}
+
+let _irotImg=null,_irotAngle=0;
+function loadImgRotate(inp){
+  const file=inp.files[0];if(!file)return;
+  _irotAngle=0;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    _irotImg=new Image();
+    _irotImg.onload=()=>drawRotated();
+    _irotImg.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function drawRotated(){
+  if(!_irotImg)return;
+  const c=document.getElementById('irot-canvas');
+  const rad=_irotAngle*Math.PI/180;
+  const abscos=Math.abs(Math.cos(rad)),abssin=Math.abs(Math.sin(rad));
+  c.width=Math.round(_irotImg.width*abscos+_irotImg.height*abssin);
+  c.height=Math.round(_irotImg.width*abssin+_irotImg.height*abscos);
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.translate(c.width/2,c.height/2);
+  ctx.rotate(rad);
+  ctx.drawImage(_irotImg,-_irotImg.width/2,-_irotImg.height/2);
+  ctx.setTransform(1,0,0,1,0,0);
+  const url=c.toDataURL();
+  document.getElementById('irot-result').innerHTML=`<img src="${url}" class="img-preview" style="max-height:220px"><div class="btn-row"><a href="${url}" download="rotated.png" class="btn btn-green">⬇ 다운로드</a></div>`;
+}
+function doRotate(deg){_irotAngle=(_irotAngle+deg+360)%360;drawRotated();}
+function doFlip(dir){
+  if(!_irotImg){alert('이미지를 먼저 업로드하세요');return;}
+  const c=document.getElementById('irot-canvas');
+  c.width=_irotImg.width;c.height=_irotImg.height;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  if(dir==='h'){ctx.translate(c.width,0);ctx.scale(-1,1);}
+  else{ctx.translate(0,c.height);ctx.scale(1,-1);}
+  ctx.drawImage(_irotImg,0,0);
+  ctx.setTransform(1,0,0,1,0,0);
+  const url=c.toDataURL();
+  document.getElementById('irot-result').innerHTML=`<img src="${url}" class="img-preview" style="max-height:220px"><div class="btn-row"><a href="${url}" download="flipped.png" class="btn btn-green">⬇ 다운로드</a></div>`;
+}
+
+function toolImgToPdf(){return `<div class="tool-area">
+<h2>📑 이미지 → PDF</h2>
+<div class="upload-area" onclick="document.getElementById('i2p-input').click()">
+  📁 이미지 파일 선택 (여러 개 가능)
+  <input type="file" id="i2p-input" accept="image/*" multiple style="display:none" onchange="previewI2P(this)">
+</div>
+<div id="i2p-preview" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"></div>
+<div class="btn-row"><button class="btn" onclick="doImgToPdf()">📑 PDF 생성</button></div>
+<div id="i2p-result"></div></div>`;}
+
+let _i2pFiles=[];
+function previewI2P(inp){
+  _i2pFiles=Array.from(inp.files);
+  const prev=document.getElementById('i2p-preview');
+  prev.innerHTML='';
+  _i2pFiles.forEach(f=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=document.createElement('img');
+      img.src=e.target.result;
+      img.style='width:80px;height:80px;object-fit:cover;border-radius:6px;border:1px solid #e2e8f0';
+      prev.appendChild(img);
+    };
+    reader.readAsDataURL(f);
+  });
+}
+async function doImgToPdf(){
+  if(!_i2pFiles.length){alert('이미지를 먼저 업로드하세요');return;}
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF({unit:'mm',format:'a4'});
+  const toDataUrl=f=>new Promise(res=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(f);});
+  for(let i=0;i<_i2pFiles.length;i++){
+    if(i>0)pdf.addPage();
+    const data=await toDataUrl(_i2pFiles[i]);
+    const img=await new Promise(res=>{const im=new Image();im.onload=()=>res(im);im.src=data;});
+    const pw=pdf.internal.pageSize.getWidth(),ph=pdf.internal.pageSize.getHeight();
+    const iw=img.width,ih=img.height;
+    let w=pw,h=pw*ih/iw;
+    if(h>ph){h=ph;w=ph*iw/ih;}
+    const x=(pw-w)/2,y=(ph-h)/2;
+    pdf.addImage(data,'JPEG',x,y,w,h);
+  }
+  pdf.save('images.pdf');
+  document.getElementById('i2p-result').innerHTML='<div class="result-box">✅ PDF 다운로드가 시작되었습니다.</div>';
+}
+
+function toolPdfCompress(){return `<div class="tool-area">
+<h2>📦 PDF 용량 줄이기</h2>
+<div class="info-box">이 도구는 PDF의 각 페이지를 이미지로 변환하여 재압축합니다. 텍스트 선택 기능은 유지되지 않습니다.</div>
+<div class="upload-area" onclick="document.getElementById('pdfcomp-input').click()" style="margin-top:16px">
+  📁 PDF 파일 업로드
+  <input type="file" id="pdfcomp-input" accept="application/pdf" style="display:none" onchange="doPdfCompress(this)">
+</div>
+<label>이미지 품질</label>
+<div class="range-group"><input type="range" id="pdfcomp-q" min="20" max="95" value="60" oninput="document.getElementById('pdfcomp-qval').textContent=this.value+'%'"><span id="pdfcomp-qval">60%</span></div>
+<div id="pdfcomp-result"></div></div>`;}
+
+async function doPdfCompress(inp){
+  const file=inp.files[0];if(!file)return;
+  const res=document.getElementById('pdfcomp-result');
+  res.innerHTML='<div class="result-box"><span class="spinner"></span> 처리 중...</div>';
+  const q=parseInt(document.getElementById('pdfcomp-q').value)/100;
+  try{
+    const ab=await file.arrayBuffer();
+    const pdfjsLib=window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const pdfDoc=await pdfjsLib.getDocument({data:ab}).promise;
+    const {jsPDF}=window.jspdf;
+    const outPdf=new jsPDF({unit:'mm',format:'a4'});
+    for(let i=1;i<=pdfDoc.numPages;i++){
+      if(i>1)outPdf.addPage();
+      const page=await pdfDoc.getPage(i);
+      const vp=page.getViewport({scale:1.5});
+      const canvas=document.createElement('canvas');
+      canvas.width=vp.width;canvas.height=vp.height;
+      await page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise;
+      const imgData=canvas.toDataURL('image/jpeg',q);
+      const pw=outPdf.internal.pageSize.getWidth(),ph=outPdf.internal.pageSize.getHeight();
+      const ratio=Math.min(pw/vp.width*96/25.4,ph/vp.height*96/25.4);
+      outPdf.addImage(imgData,'JPEG',0,0,pw,ph);
+    }
+    outPdf.save('compressed.pdf');
+    res.innerHTML='<div class="result-box">✅ 압축 완료! 다운로드가 시작되었습니다.</div>';
+  }catch(e){res.innerHTML=`<div class="result-box">❌ 오류: ${e.message}</div>`;}
+}
+
+function toolPdfToImg(){return `<div class="tool-area">
+<h2>🖼️ PDF → 이미지</h2>
+<div class="upload-area" onclick="document.getElementById('p2i-input').click()">
+  📁 PDF 파일 업로드
+  <input type="file" id="p2i-input" accept="application/pdf" style="display:none" onchange="doPdfToImg(this)">
+</div>
+<label>해상도 배율</label>
+<select id="p2i-scale"><option value="1">1x (보통)</option><option value="1.5">1.5x (고화질)</option><option value="2" selected>2x (최고)</option></select>
+<div id="p2i-result"></div></div>`;}
+
+async function doPdfToImg(inp){
+  const file=inp.files[0];if(!file)return;
+  const res=document.getElementById('p2i-result');
+  res.innerHTML='<div class="result-box"><span class="spinner"></span> 변환 중...</div>';
+  try{
+    const ab=await file.arrayBuffer();
+    const pdfjsLib=window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const scale=parseFloat(document.getElementById('p2i-scale').value);
+    const pdfDoc=await pdfjsLib.getDocument({data:ab}).promise;
+    let html='<div style="display:flex;flex-direction:column;gap:12px;margin-top:16px">';
+    for(let i=1;i<=pdfDoc.numPages;i++){
+      const page=await pdfDoc.getPage(i);
+      const vp=page.getViewport({scale});
+      const canvas=document.createElement('canvas');
+      canvas.width=vp.width;canvas.height=vp.height;
+      await page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise;
+      const url=canvas.toDataURL('image/png');
+      html+=`<div><p style="font-size:.82rem;color:#64748b;margin-bottom:4px">페이지 ${i}</p><img src="${url}" style="max-width:100%;border-radius:6px;border:1px solid #e2e8f0"><div class="btn-row"><a href="${url}" download="page-${i}.png" class="btn btn-sm btn-green">⬇ 페이지 ${i} 다운로드</a></div></div>`;
+    }
+    html+='</div>';
+    res.innerHTML=html;
+  }catch(e){res.innerHTML=`<div class="result-box">❌ 오류: ${e.message}</div>`;}
+}
+
+// ======== TEXT TOOLS ========
+function toolTextCounter(){return `<div class="tool-area">
+<h2>🔢 글자 수 세기</h2>
+<textarea id="tc-input" placeholder="텍스트를 입력하세요..." oninput="doTextCount()"></textarea>
+<div id="tc-result" class="result-box" style="margin-top:12px">텍스트를 입력하면 자동으로 집계됩니다.</div></div>`;}
+
+function doTextCount(){
+  const v=document.getElementById('tc-input').value;
+  const all=v.length;
+  const noSpace=v.replace(/\s/g,'').length;
+  const lines=v?v.split('\n').length:0;
+  const words=v.trim()?v.trim().split(/\s+/).length:0;
+  const bytes=new TextEncoder().encode(v).length;
+  document.getElementById('tc-result').innerHTML=`
+    <table><tr><th>항목</th><th>수치</th></tr>
+    <tr><td>전체 글자 수</td><td>${all.toLocaleString()}</td></tr>
+    <tr><td>공백 제외</td><td>${noSpace.toLocaleString()}</td></tr>
+    <tr><td>단어 수</td><td>${words.toLocaleString()}</td></tr>
+    <tr><td>줄 수</td><td>${lines.toLocaleString()}</td></tr>
+    <tr><td>바이트 (UTF-8)</td><td>${bytes.toLocaleString()}</td></tr>
+    </table>`;
+}
+
+function toolTextClean(){return `<div class="tool-area">
+<h2>🧹 텍스트 정리</h2>
+<textarea id="tclean-input" placeholder="정리할 텍스트를 입력하세요..."></textarea>
+<div class="btn-row">
+  <button class="btn btn-outline btn-sm" onclick="doClean('trim')">앞뒤 공백 제거</button>
+  <button class="btn btn-outline btn-sm" onclick="doClean('lines')">빈 줄 제거</button>
+  <button class="btn btn-outline btn-sm" onclick="doClean('spaces')">중복 공백 제거</button>
+  <button class="btn btn-outline btn-sm" onclick="doClean('special')">특수문자 제거</button>
+  <button class="btn btn-outline btn-sm" onclick="doClean('all')">전체 정리</button>
+</div>
+<label>결과</label>
+<textarea id="tclean-output" placeholder="결과가 여기에 표시됩니다..." readonly></textarea>
+<div class="btn-row"><button class="btn btn-outline btn-sm" onclick="copyText('tclean-output')">📋 복사</button></div></div>`;}
+
+function doClean(type){
+  let v=document.getElementById('tclean-input').value;
+  if(type==='trim'||type==='all')v=v.trim();
+  if(type==='lines'||type==='all')v=v.replace(/\n{3,}/g,'\n\n');
+  if(type==='spaces'||type==='all')v=v.replace(/ {2,}/g,' ');
+  if(type==='special')v=v.replace(/[^\w\s가-힣ㄱ-ㅎㅏ-ㅣ.,!?()]/g,'');
+  document.getElementById('tclean-output').value=v;
+}
+
+function toolTextCase(){return `<div class="tool-area">
+<h2>🔡 텍스트 변환</h2>
+<textarea id="tcase-input" placeholder="변환할 텍스트를 입력하세요..."></textarea>
+<div class="btn-row">
+  <button class="btn btn-outline btn-sm" onclick="doCase('upper')">UPPERCASE</button>
+  <button class="btn btn-outline btn-sm" onclick="doCase('lower')">lowercase</button>
+  <button class="btn btn-outline btn-sm" onclick="doCase('title')">Title Case</button>
+  <button class="btn btn-outline btn-sm" onclick="doCase('camel')">camelCase</button>
+  <button class="btn btn-outline btn-sm" onclick="doCase('snake')">snake_case</button>
+  <button class="btn btn-outline btn-sm" onclick="doCase('kebab')">kebab-case</button>
+</div>
+<label>결과</label>
+<textarea id="tcase-output" readonly></textarea>
+<div class="btn-row"><button class="btn btn-outline btn-sm" onclick="copyText('tcase-output')">📋 복사</button></div></div>`;}
+
+function doCase(type){
+  const v=document.getElementById('tcase-input').value;
+  let r=v;
+  if(type==='upper')r=v.toUpperCase();
+  else if(type==='lower')r=v.toLowerCase();
+  else if(type==='title')r=v.replace(/\w\S*/g,t=>t[0].toUpperCase()+t.slice(1).toLowerCase());
+  else if(type==='camel'){r=v.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g,(_,c)=>c.toUpperCase());}
+  else if(type==='snake')r=v.replace(/\s+/g,'_').toLowerCase().replace(/[^a-z0-9_]/g,'');
+  else if(type==='kebab')r=v.replace(/\s+/g,'-').toLowerCase().replace(/[^a-z0-9-]/g,'');
+  document.getElementById('tcase-output').value=r;
+}
+
+function toolJsonFormat(){return `<div class="tool-area">
+<h2>{} JSON 정리기</h2>
+<textarea id="json-input" placeholder='{"key":"value","arr":[1,2,3]}' style="min-height:140px"></textarea>
+<div class="btn-row">
+  <button class="btn" onclick="doJsonFormat()">정렬/들여쓰기</button>
+  <button class="btn btn-outline" onclick="doJsonMinify()">압축 (Minify)</button>
+  <button class="btn btn-outline" onclick="doJsonValidate()">유효성 검사</button>
+</div>
+<label>결과</label>
+<textarea id="json-output" readonly style="min-height:140px"></textarea>
+<div class="btn-row"><button class="btn btn-outline btn-sm" onclick="copyText('json-output')">📋 복사</button></div></div>`;}
+
+function doJsonFormat(){try{const v=JSON.parse(document.getElementById('json-input').value);document.getElementById('json-output').value=JSON.stringify(v,null,2);}catch(e){document.getElementById('json-output').value='❌ JSON 오류: '+e.message;}}
+function doJsonMinify(){try{const v=JSON.parse(document.getElementById('json-input').value);document.getElementById('json-output').value=JSON.stringify(v);}catch(e){document.getElementById('json-output').value='❌ JSON 오류: '+e.message;}}
+function doJsonValidate(){try{JSON.parse(document.getElementById('json-input').value);document.getElementById('json-output').value='✅ 유효한 JSON입니다.';}catch(e){document.getElementById('json-output').value='❌ 유효하지 않은 JSON: '+e.message;}}
+
+// ======== OFFICE TOOLS ========
+function toolQrGen(){return `<div class="tool-area">
+<h2>📲 QR코드 생성</h2>
+<label>내용 (URL, 텍스트 등)</label>
+<input type="text" id="qr-input" placeholder="https://all-lifes.com" oninput="updateQR()">
+<label>크기</label>
+<select id="qr-size" onchange="updateQR()">
+  <option value="128">128px (소)</option>
+  <option value="200" selected>200px (중)</option>
+  <option value="256">256px (대)</option>
+  <option value="400">400px (특대)</option>
+</select>
+<div id="qr-box" style="margin-top:20px;display:flex;justify-content:center;"></div>
+<div id="qr-dl" class="btn-row" style="justify-content:center;margin-top:12px"></div></div>`;}
+
+let _qrObj=null;
+function initQR(){
+  const inp=document.getElementById('qr-input');
+  if(inp)inp.value='https://all-lifes.com';
+  setTimeout(updateQR,100);
+}
+function updateQR(){
+  const val=document.getElementById('qr-input')?.value||'';
+  const size=parseInt(document.getElementById('qr-size')?.value||200);
+  if(!val)return;
+  const box=document.getElementById('qr-box');
+  box.innerHTML='';
+  if(_qrObj)try{_qrObj.clear();}catch(e){}
+  _qrObj=new QRCode(box,{text:val,width:size,height:size,colorDark:'#000000',colorLight:'#ffffff'});
+  setTimeout(()=>{
+    const img=box.querySelector('img');
+    if(img){
+      document.getElementById('qr-dl').innerHTML=`<a href="${img.src}" download="qrcode.png" class="btn btn-green">⬇ PNG 다운로드</a>`;
+    }
+  },300);
+}
+
+function toolUnitConv(){return `<div class="tool-area">
+<h2>⚖️ 단위 변환</h2>
+<label>카테고리</label>
+<select id="uc-cat" onchange="ucUpdateUnits()">
+  <option value="length">길이</option>
+  <option value="weight">무게</option>
+  <option value="area">넓이</option>
+  <option value="volume">부피</option>
+  <option value="temp">온도</option>
+  <option value="speed">속도</option>
+</select>
+<div style="display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-top:12px">
+  <div><label>값</label><input type="number" id="uc-val" value="1" oninput="doUnitConv()"></div>
+  <div style="margin-top:20px;color:var(--text-muted)">→</div>
+  <div><label>단위</label><select id="uc-from" onchange="doUnitConv()"></select></div>
+</div>
+<label>변환 대상</label>
+<select id="uc-to" onchange="doUnitConv()"></select>
+<div id="uc-result" class="result-box" style="margin-top:16px;font-size:1.1rem;font-weight:700;text-align:center"></div></div>`;}
+
+const ucDefs={
+  length:{units:['mm','cm','m','km','inch','ft','yard','mile'],factors:[0.001,0.01,1,1000,0.0254,0.3048,0.9144,1609.344]},
+  weight:{units:['mg','g','kg','ton','oz','lb'],factors:[1e-6,0.001,1,1000,0.02835,0.4536]},
+  area:{units:['cm²','m²','km²','평','acre','ha'],factors:[0.0001,1,1e6,3.30579,4046.86,10000]},
+  volume:{units:['mL','L','m³','fl oz','cup','gallon'],factors:[0.001,1,1000,0.02957,0.23659,3.78541]},
+  temp:{units:['°C','°F','K'],factors:null},
+  speed:{units:['m/s','km/h','mph','knot'],factors:[1,0.27778,0.44704,0.51444]}
+};
+function ucUpdateUnits(){
+  const cat=document.getElementById('uc-cat').value;
+  const def=ucDefs[cat];
+  ['uc-from','uc-to'].forEach((id,i)=>{
+    const sel=document.getElementById(id);
+    sel.innerHTML=def.units.map((u,j)=>`<option value="${j}" ${j==(i?1:0)?'selected':''}>${u}</option>`).join('');
+  });
+  doUnitConv();
+}
+function doUnitConv(){
+  const cat=document.getElementById('uc-cat')?.value;if(!cat)return;
+  const def=ucDefs[cat];
+  const val=parseFloat(document.getElementById('uc-val')?.value)||0;
+  const from=parseInt(document.getElementById('uc-from')?.value||0);
+  const to=parseInt(document.getElementById('uc-to')?.value||1);
+  let result;
+  if(cat==='temp'){
+    let celsius=val;
+    if(from===1)celsius=(val-32)*5/9;
+    else if(from===2)celsius=val-273.15;
+    if(to===0)result=celsius;
+    else if(to===1)result=celsius*9/5+32;
+    else result=celsius+273.15;
+  }else{
+    const baseVal=val*def.factors[from];
+    result=baseVal/def.factors[to];
+  }
+  const fromUnit=def.units[from],toUnit=def.units[to];
+  document.getElementById('uc-result').innerHTML=`${val.toLocaleString()} ${fromUnit} = <span style="color:var(--primary)">${result.toFixed(6).replace(/\.?0+$/,'')} ${toUnit}</span>`;
+}
+
+function toolDday(){return `<div class="tool-area">
+<h2>📅 날짜 계산/D-day</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+  <div><label>시작일</label><input type="date" id="dd-start"></div>
+  <div><label>종료일</label><input type="date" id="dd-end"></div>
+</div>
+<div class="btn-row"><button class="btn" onclick="doDday()">계산하기</button><button class="btn btn-outline" onclick="setDdayToday()">오늘 기준</button></div>
+<div id="dd-result"></div>
+<hr style="margin:20px 0;border-color:#e2e8f0">
+<h3 style="font-size:1rem;margin-bottom:12px">D-day 저장</h3>
+<input type="text" id="dd-label" placeholder="이름 (예: 생일, 기념일)">
+<input type="date" id="dd-target" style="margin-top:8px">
+<div class="btn-row"><button class="btn btn-outline" onclick="addDday()">추가</button></div>
+<div id="dd-list" style="margin-top:12px"></div></div>`;}
+
+function setDdayToday(){const t=new Date().toISOString().split('T')[0];document.getElementById('dd-start').value=t;document.getElementById('dd-end').value=t;}
+function doDday(){
+  const s=document.getElementById('dd-start').value,e=document.getElementById('dd-end').value;
+  if(!s||!e){alert('날짜를 입력하세요');return;}
+  const d1=new Date(s),d2=new Date(e);
+  const diff=Math.round((d2-d1)/(1000*60*60*24));
+  const absDiff=Math.abs(diff);
+  const years=Math.floor(absDiff/365),months=Math.floor((absDiff%365)/30),days=absDiff%30;
+  document.getElementById('dd-result').innerHTML=`
+    <div class="result-box">
+      <p style="font-size:1.4rem;font-weight:800;color:var(--primary);text-align:center">D${diff>=0?'+':''}${diff}</p>
+      <p style="text-align:center;color:var(--text-muted);margin-top:8px">${absDiff}일 (약 ${years}년 ${months}개월 ${days}일)</p>
+    </div>`;
+}
+let _ddList=JSON.parse(localStorage.getItem('ddList')||'[]');
+function renderDdList(){
+  const today=new Date();today.setHours(0,0,0,0);
+  document.getElementById('dd-list').innerHTML=_ddList.map((d,i)=>{
+    const target=new Date(d.date);target.setHours(0,0,0,0);
+    const diff=Math.round((target-today)/(1000*60*60*24));
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #e2e8f0">
+      <span>${d.label} <small style="color:#64748b">(${d.date})</small></span>
+      <span style="font-weight:700;color:${diff<0?'#ef4444':'#2563eb'}">D${diff>=0?'+':''}${diff}</span>
+      <button onclick="removeDd(${i})" style="background:none;border:none;color:#94a3b8;cursor:pointer">✕</button>
+    </div>`;
+  }).join('');
+}
+function addDday(){
+  const l=document.getElementById('dd-label').value.trim(),d=document.getElementById('dd-target').value;
+  if(!l||!d){alert('이름과 날짜를 입력하세요');return;}
+  _ddList.push({label:l,date:d});
+  localStorage.setItem('ddList',JSON.stringify(_ddList));
+  renderDdList();
+}
+function removeDd(i){_ddList.splice(i,1);localStorage.setItem('ddList',JSON.stringify(_ddList));renderDdList();}
+
+function toolColorTool(){return `<div class="tool-area">
+<h2>🎨 색상 코드 변환</h2>
+<label>색상 선택</label>
+<div style="display:flex;gap:12px;align-items:center">
+  <input type="color" id="ct-picker" value="#2563eb" oninput="doColorConv()" style="width:60px;height:44px;padding:2px;cursor:pointer">
+  <input type="text" id="ct-hex" value="#2563eb" placeholder="#HEX" oninput="hexToOthers()" style="flex:1">
+</div>
+<div id="ct-result" class="result-box" style="margin-top:16px"></div>
+<div id="ct-preview" style="height:80px;border-radius:10px;margin-top:12px;background:#2563eb;transition:background .3s"></div></div>`;}
+
+function doColorConv(){
+  const hex=document.getElementById('ct-picker').value;
+  document.getElementById('ct-hex').value=hex;
+  updateColorDisplay(hex);
+}
+function hexToOthers(){
+  const hex=document.getElementById('ct-hex').value;
+  if(/^#[0-9a-fA-F]{6}$/.test(hex)){
+    document.getElementById('ct-picker').value=hex;
+    updateColorDisplay(hex);
+  }
+}
+function updateColorDisplay(hex){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  const max=Math.max(r,g,b)/255,min=Math.min(r,g,b)/255;
+  const l=(max+min)/2;
+  let h=0,s=0;
+  if(max!==min){s=l<.5?(max-min)/(max+min):(max-min)/(2-max-min);const d=max-min/255;if(max===r/255)h=(g-b)/255/d+(g<b?6:0);else if(max===g/255)h=(b-r)/255/d+2;else h=(r-g)/255/d+4;h/=6;}
+  const rgb=`rgb(${r}, ${g}, ${b})`;
+  const hsl=`hsl(${Math.round(h*360)}, ${Math.round(s*100)}%, ${Math.round(l*100)}%)`;
+  const cmyk_k=1-max,cmyk_c=max?(1-r/255/max)/(1-cmyk_k)/(1-cmyk_k):0,cmyk_m=max?(1-g/255/max)/(1-cmyk_k)/(1-cmyk_k):0,cmyk_y=max?(1-b/255/max)/(1-cmyk_k)/(1-cmyk_k):0;
+  document.getElementById('ct-result').innerHTML=`
+    <table>
+      <tr><td>HEX</td><td><strong>${hex.toUpperCase()}</strong></td><td><button class="btn btn-sm btn-outline" onclick="navigator.clipboard.writeText('${hex.toUpperCase()}')">복사</button></td></tr>
+      <tr><td>RGB</td><td><strong>${rgb}</strong></td><td><button class="btn btn-sm btn-outline" onclick="navigator.clipboard.writeText('${rgb}')">복사</button></td></tr>
+      <tr><td>HSL</td><td><strong>${hsl}</strong></td><td><button class="btn btn-sm btn-outline" onclick="navigator.clipboard.writeText('${hsl}')">복사</button></td></tr>
+    </table>`;
+  document.getElementById('ct-preview').style.background=hex;
+}
+
+// ======== CALC TOOLS ========
+function toolTaxCalc(){return `<div class="tool-area">
+<h2>🧾 부가세 계산기</h2>
+<label>계산 방식</label>
+<select id="tax-mode">
+  <option value="add">공급가액 → 부가세 포함 금액</option>
+  <option value="extract">부가세 포함 → 공급가액 추출</option>
+</select>
+<label>금액 (원)</label>
+<input type="number" id="tax-amount" placeholder="예: 100000">
+<div class="btn-row"><button class="btn" onclick="doTaxCalc()">계산하기</button></div>
+<div id="tax-result"></div></div>`;}
+
+function doTaxCalc(){
+  const mode=document.getElementById('tax-mode').value;
+  const amt=parseFloat(document.getElementById('tax-amount').value);
+  if(!amt||amt<=0){alert('금액을 입력하세요');return;}
+  let supply,vat,total;
+  if(mode==='add'){supply=amt;vat=Math.round(amt*0.1);total=amt+vat;}
+  else{total=amt;supply=Math.round(amt/1.1);vat=total-supply;}
+  document.getElementById('tax-result').innerHTML=`
+    <table>
+      <tr><th>항목</th><th>금액</th></tr>
+      <tr><td>공급가액</td><td>${supply.toLocaleString()}원</td></tr>
+      <tr><td>부가세 (10%)</td><td>${vat.toLocaleString()}원</td></tr>
+      <tr class="total-row"><td>합계</td><td>${total.toLocaleString()}원</td></tr>
+    </table>`;
+}
+
+function toolSalaryCalc(){return `<div class="tool-area">
+<h2>💵 연봉 계산기</h2>
+<div class="info-box">국민연금·건강보험·고용보험·근로소득세 간이세액 기준으로 계산합니다.</div>
+<label>연봉 (원)</label>
+<input type="number" id="sal-annual" placeholder="예: 40000000" value="40000000">
+<label>부양가족 수 (본인 포함)</label>
+<input type="number" id="sal-dep" value="1" min="1" max="20">
+<label>비과세 금액 (월, 원)</label>
+<input type="number" id="sal-nontax" placeholder="예: 200000" value="200000">
+<div class="btn-row"><button class="btn" onclick="calcSalary()">계산하기</button></div>
+<div id="sal-result"></div></div>`;}
+
+function calcEarnedDeduction(annual){
+  if(annual<=5e6)return annual*0.7;
+  if(annual<=15e6)return 3.5e6+(annual-5e6)*0.4;
+  if(annual<=45e6)return 7.5e6+(annual-15e6)*0.15;
+  if(annual<=100e6)return 12e6+(annual-45e6)*0.05;
+  return 14.75e6+(annual-100e6)*0.02;
+}
+function calcIncomeTax(taxable){
+  if(taxable<=0)return 0;
+  const brackets=[[14e6,.06],[50e6,.15],[88e6,.24],[150e6,.35],[300e6,.38],[500e6,.40],[1e9,.42],[Infinity,.45]];
+  const deductions=[0,840000,5220000,14900000,35400000,65400000,94400000,174400000];
+  let idx=0;
+  for(let i=0;i<brackets.length;i++){if(taxable<=brackets[i][0]){idx=i;break;}idx=i;}
+  return Math.max(0,taxable*brackets[idx][1]-deductions[idx]);
+}
+function calcSalary(){
+  const annual=parseFloat(document.getElementById('sal-annual').value)||0;
+  const dep=parseInt(document.getElementById('sal-dep').value)||1;
+  const nontax=parseFloat(document.getElementById('sal-nontax').value)||0;
+  if(annual<=0){alert('연봉을 입력하세요');return;}
+  const monthly=annual/12;
+  const taxableMonthly=Math.max(0,monthly-nontax);
+  const pension=Math.min(monthly*0.045,266550);
+  const health=monthly*0.03545;
+  const longterm=Math.round(health*0.1281);
+  const employ=monthly*0.009;
+  const totalInsurance=pension+health+longterm+employ;
+  const annualTaxable=taxableMonthly*12;
+  const earnedDed=calcEarnedDeduction(annualTaxable);
+  const personalDed=1500000+(dep-1)*1500000;
+  const taxBaseAnnual=Math.max(0,annualTaxable-earnedDed-personalDed);
+  const annualIncomeTax=calcIncomeTax(taxBaseAnnual);
+  const monthlyIncomeTax=Math.round(annualIncomeTax/12/10)*10;
+  const localTax=Math.round(monthlyIncomeTax*0.1);
+  const totalDeduct=Math.round(pension+health+longterm+employ+monthlyIncomeTax+localTax);
+  const netMonthly=Math.round(monthly-totalDeduct);
+  const netAnnual=netMonthly*12;
+  document.getElementById('sal-result').innerHTML=`
+    <table class="salary-table">
+      <tr><th>항목</th><th>금액</th><th>비고</th></tr>
+      <tr><td>월 급여</td><td>${Math.round(monthly).toLocaleString()}원</td><td>연봉÷12</td></tr>
+      <tr><td>국민연금</td><td>-${Math.round(pension).toLocaleString()}원</td><td>4.5% (월 상한 266,550)</td></tr>
+      <tr><td>건강보험</td><td>-${Math.round(health).toLocaleString()}원</td><td>3.545%</td></tr>
+      <tr><td>장기요양보험</td><td>-${longterm.toLocaleString()}원</td><td>건강보험료×12.81%</td></tr>
+      <tr><td>고용보험</td><td>-${Math.round(employ).toLocaleString()}원</td><td>0.9%</td></tr>
+      <tr><td>근로소득세</td><td>-${monthlyIncomeTax.toLocaleString()}원</td><td>간이세액 기준</td></tr>
+      <tr><td>지방소득세</td><td>-${localTax.toLocaleString()}원</td><td>소득세×10%</td></tr>
+      <tr class="total-row"><td>총 공제액</td><td>${totalDeduct.toLocaleString()}원</td><td></td></tr>
+      <tr class="total-row"><td>예상 실수령액 (월)</td><td>${netMonthly.toLocaleString()}원</td><td></td></tr>
+      <tr class="total-row"><td>연간 실수령액</td><td>${netAnnual.toLocaleString()}원</td><td></td></tr>
+    </table>
+    <div class="warning-box">※ 실제 세액은 개인 상황에 따라 다를 수 있으며, 연말정산 결과에 따라 달라질 수 있습니다.</div>`;
+}
+
+function toolDiscountCalc(){return `<div class="tool-area">
+<h2>🏷️ 할인 계산기</h2>
+<label>원래 가격 (원)</label>
+<input type="number" id="dc-price" placeholder="예: 50000">
+<label>할인율 (%)</label>
+<input type="number" id="dc-rate" placeholder="예: 30">
+<div class="btn-row"><button class="btn" onclick="doDiscount()">계산하기</button></div>
+<div id="dc-result"></div></div>`;}
+
+function doDiscount(){
+  const p=parseFloat(document.getElementById('dc-price').value)||0;
+  const r=parseFloat(document.getElementById('dc-rate').value)||0;
+  if(!p){alert('가격을 입력하세요');return;}
+  const disc=Math.round(p*r/100);
+  const final=p-disc;
+  document.getElementById('dc-result').innerHTML=`
+    <table>
+      <tr><th>항목</th><th>금액</th></tr>
+      <tr><td>원래 가격</td><td>${p.toLocaleString()}원</td></tr>
+      <tr><td>할인액 (${r}%)</td><td>-${disc.toLocaleString()}원</td></tr>
+      <tr class="total-row"><td>최종 가격</td><td>${final.toLocaleString()}원</td></tr>
+    </table>`;
+}
+
+function toolInterestCalc(){return `<div class="tool-area">
+<h2>💰 이자 계산기</h2>
+<label>원금 (원)</label>
+<input type="number" id="int-principal" placeholder="예: 10000000">
+<label>연이율 (%)</label>
+<input type="number" id="int-rate" placeholder="예: 3.5" step="0.1">
+<label>기간 (개월)</label>
+<input type="number" id="int-months" placeholder="예: 12">
+<label>이자 방식</label>
+<select id="int-type">
+  <option value="simple">단리</option>
+  <option value="compound">복리 (월 복리)</option>
+</select>
+<div class="btn-row"><button class="btn" onclick="doInterest()">계산하기</button></div>
+<div id="int-result"></div></div>`;}
+
+function doInterest(){
+  const p=parseFloat(document.getElementById('int-principal').value)||0;
+  const r=parseFloat(document.getElementById('int-rate').value)||0;
+  const m=parseInt(document.getElementById('int-months').value)||0;
+  const type=document.getElementById('int-type').value;
+  if(!p||!r||!m){alert('모두 입력하세요');return;}
+  let total,interest;
+  if(type==='simple'){interest=Math.round(p*r/100/12*m);total=p+interest;}
+  else{total=Math.round(p*Math.pow(1+r/100/12,m));interest=total-p;}
+  document.getElementById('int-result').innerHTML=`
+    <table>
+      <tr><th>항목</th><th>금액</th></tr>
+      <tr><td>원금</td><td>${p.toLocaleString()}원</td></tr>
+      <tr><td>이자</td><td>${interest.toLocaleString()}원</td></tr>
+      <tr class="total-row"><td>원금+이자</td><td>${total.toLocaleString()}원</td></tr>
+    </table>`;
+}
+
+function toolSeveranceCalc(){return `<div class="tool-area">
+<h2>📋 퇴직금 계산기</h2>
+<div class="info-box">근로기준법 기준: 계속근무 1년 이상, 1년당 30일분의 평균임금</div>
+<label>입사일</label>
+<input type="date" id="sev-start">
+<label>퇴직일</label>
+<input type="date" id="sev-end">
+<label>최근 3개월 평균 월급 (원)</label>
+<input type="number" id="sev-salary" placeholder="예: 3000000">
+<div class="btn-row"><button class="btn" onclick="calcSeverance()">계산하기</button></div>
+<div id="sev-result"></div></div>`;}
+
+function calcSeverance(){
+  const s=document.getElementById('sev-start').value;
+  const e=document.getElementById('sev-end').value;
+  const sal=parseFloat(document.getElementById('sev-salary').value)||0;
+  if(!s||!e||!sal){alert('모든 항목을 입력하세요');return;}
+  const start=new Date(s),end=new Date(e);
+  const workDays=Math.round((end-start)/(1000*60*60*24));
+  const workYears=workDays/365;
+  if(workDays<365){
+    document.getElementById('sev-result').innerHTML='<div class="warning-box">⚠️ 근무기간이 1년 미만으로 퇴직금이 발생하지 않습니다.</div>';return;
+  }
+  const dailyWage=sal*3/90;
+  const severance=Math.round(dailyWage*30*workYears);
+  const y=Math.floor(workDays/365),mo=Math.floor((workDays%365)/30),d=workDays%30;
+  document.getElementById('sev-result').innerHTML=`
+    <table>
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>총 근무기간</td><td>${y}년 ${mo}개월 ${d}일</td></tr>
+      <tr><td>근무일수</td><td>${workDays.toLocaleString()}일</td></tr>
+      <tr><td>1일 평균임금</td><td>${Math.round(dailyWage).toLocaleString()}원</td></tr>
+      <tr class="total-row"><td>퇴직금 예상액</td><td>${severance.toLocaleString()}원</td></tr>
+    </table>
+    <div class="warning-box">※ 실제 퇴직금은 퇴직금 제도 또는 DC/DB형 퇴직연금에 따라 달라질 수 있습니다.</div>`;
+}
+
+// ======== MARKET TOOLS ========
+function toolExchange(){return `<div class="tool-area">
+<h2>💱 실시간 환율</h2>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+  <span id="exch-updated" style="font-size:.8rem;color:var(--text-muted)">로딩 중...</span>
+  <button class="btn btn-outline btn-sm" onclick="loadExchangeRates()">🔄 새로고침</button>
+</div>
+<div id="exch-grid" class="exchange-grid"></div>
+<hr style="margin:24px 0;border-color:#e2e8f0">
+<h3 style="font-size:1rem;margin-bottom:12px">💱 환율 변환기</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:end">
+  <div><label>금액</label><input type="number" id="conv-amt" value="100" oninput="doConvert()"></div>
+  <div><label>변환 전</label><select id="conv-from" onchange="doConvert()"></select></div>
+  <div><label>변환 후</label><select id="conv-to" onchange="doConvert()"></select></div>
+</div>
+<div id="conv-result" class="result-box" style="margin-top:12px;font-size:1.1rem;font-weight:700;text-align:center"></div></div>`;}
+
+let _exchRates={};
+async function loadExchangeRates(){
+  const grid=document.getElementById('exch-grid');
+  if(!grid)return;
+  grid.innerHTML='<span class="spinner"></span>';
+  try{
+    const res=await fetch('https://api.frankfurter.app/latest?from=USD&to=KRW,EUR,JPY,CNY,GBP,CHF,AUD,CAD,HKD,SGD');
+    const data=await res.json();
+    const usdKrw=data.rates.KRW||1;
+    _exchRates={USD:1,...data.rates};
+    const currencies=[
+      {code:'USD',flag:'🇺🇸',name:'미국 달러',rate:usdKrw},
+      {code:'EUR',flag:'🇪🇺',name:'유로',rate:data.rates.EUR?usdKrw/data.rates.EUR:0},
+      {code:'JPY',flag:'🇯🇵',name:'100엔',rate:data.rates.JPY?usdKrw/data.rates.JPY*100:0},
+      {code:'CNY',flag:'🇨🇳',name:'위안',rate:data.rates.CNY?usdKrw/data.rates.CNY:0},
+      {code:'GBP',flag:'🇬🇧',name:'파운드',rate:data.rates.GBP?usdKrw/data.rates.GBP:0},
+      {code:'CHF',flag:'🇨🇭',name:'스위스 프랑',rate:data.rates.CHF?usdKrw/data.rates.CHF:0},
+      {code:'AUD',flag:'🇦🇺',name:'호주 달러',rate:data.rates.AUD?usdKrw/data.rates.AUD:0},
+      {code:'CAD',flag:'🇨🇦',name:'캐나다 달러',rate:data.rates.CAD?usdKrw/data.rates.CAD:0},
+      {code:'HKD',flag:'🇭🇰',name:'홍콩 달러',rate:data.rates.HKD?usdKrw/data.rates.HKD:0},
+      {code:'SGD',flag:'🇸🇬',name:'싱가포르 달러',rate:data.rates.SGD?usdKrw/data.rates.SGD:0}
+    ];
+    grid.innerHTML=currencies.map(c=>`
+      <div class="exch-card">
+        <div class="exch-flag">${c.flag}</div>
+        <div class="exch-code">${c.code}</div>
+        <div style="font-size:.75rem;color:var(--text-muted);margin-bottom:4px">${c.name}</div>
+        <div class="exch-rate">${c.rate.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}원</div>
+      </div>`).join('');
+    const now=new Date().toLocaleTimeString('ko-KR');
+    const upd=document.getElementById('exch-updated');
+    if(upd)upd.textContent=`마지막 업데이트: ${now} (frankfurter.app)`;
+    const allCodes=['KRW','USD','EUR','JPY','CNY','GBP','CHF','AUD','CAD','HKD','SGD'];
+    const fromSel=document.getElementById('conv-from');
+    const toSel=document.getElementById('conv-to');
+    if(fromSel&&toSel){
+      fromSel.innerHTML=allCodes.map(c=>`<option value="${c}" ${c==='USD'?'selected':''}>${c}</option>`).join('');
+      toSel.innerHTML=allCodes.map(c=>`<option value="${c}" ${c==='KRW'?'selected':''}>${c}</option>`).join('');
+      doConvert();
+    }
+  }catch(e){if(grid)grid.innerHTML=`<p style="color:#ef4444">오류: ${e.message}</p>`;}
+}
+function doConvert(){
+  const amt=parseFloat(document.getElementById('conv-amt')?.value)||0;
+  const from=document.getElementById('conv-from')?.value;
+  const to=document.getElementById('conv-to')?.value;
+  const el=document.getElementById('conv-result');
+  if(!el||!from||!to)return;
+  if(!Object.keys(_exchRates).length){el.textContent='환율 데이터 로딩 중...';return;}
+  const toKrw=(code)=>{if(code==='KRW')return 1;if(code==='USD')return _exchRates.KRW||1;return(_exchRates.KRW||1)/(_exchRates[code]||1);};
+  const krwAmt=amt*toKrw(from);
+  const result=krwAmt/toKrw(to);
+  el.innerHTML=`${amt.toLocaleString()} ${from} = <span style="color:var(--primary)">${result.toLocaleString('ko-KR',{maximumFractionDigits:2})} ${to}</span>`;
+}
+
+function toolCrypto(){return `<div class="tool-area">
+<h2>₿ 코인 시세</h2>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+  <span style="font-size:.8rem;color:var(--text-muted)">CoinGecko 제공, 15분 지연 가능</span>
+  <button class="btn btn-outline btn-sm" onclick="loadCrypto()">🔄 새로고침</button>
+</div>
+<div id="crypto-grid" class="coin-grid"><span class="spinner"></span></div></div>`;}
+
+const coinInfo={bitcoin:{name:'비트코인',emoji:'₿'},ethereum:{name:'이더리움',emoji:'Ξ'},ripple:{name:'리플',emoji:'✕'},binancecoin:{name:'바이낸스',emoji:'🔶'},solana:{name:'솔라나',emoji:'◎'},dogecoin:{name:'도지코인',emoji:'🐕'},cardano:{name:'카르다노',emoji:'♾'},polkadot:{name:'폴카닷',emoji:'●'}};
+async function loadCrypto(){
+  const grid=document.getElementById('crypto-grid');
+  if(!grid)return;
+  grid.innerHTML='<span class="spinner"></span>';
+  try{
+    const res=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple,binancecoin,solana,dogecoin,cardano,polkadot&vs_currencies=usd,krw&include_24hr_change=true');
+    const data=await res.json();
+    grid.innerHTML=Object.entries(data).map(([id,d])=>{
+      const info=coinInfo[id]||{name:id,emoji:'💰'};
+      const ch=d.usd_24h_change||0;
+      const up=ch>=0;
+      return `<div class="coin-card">
+        <div class="coin-name">${info.emoji} ${info.name}</div>
+        <div class="coin-usd">$${d.usd?.toLocaleString('en',{maximumFractionDigits:2})}</div>
+        <div class="coin-krw">₩${d.krw?.toLocaleString('ko')}</div>
+        <div class="coin-change" style="color:${up?'#10b981':'#ef4444'}">${up?'▲':'▼'} ${Math.abs(ch).toFixed(2)}%</div>
+      </div>`;
+    }).join('');
+  }catch(e){if(grid)grid.innerHTML=`<p style="color:#ef4444">오류: ${e.message}<br><small>CoinGecko API 요청 한도 초과일 수 있습니다. 잠시 후 다시 시도하세요.</small></p>`;}
+}
+
+function toolStocks(){return `<div class="tool-area">
+<h2>📈 주가 정보</h2>
+<div class="info-box">실시간 주가는 각 금융 사이트에서 확인하세요. 아래 링크를 클릭하면 해당 종목 페이지로 이동합니다.</div>
+<h3 style="font-size:.95rem;margin:16px 0 10px">🇰🇷 국내 주요 종목</h3>
+<div class="stocks-links">
+  ${[['삼성전자','005930'],['SK하이닉스','000660'],['NAVER','035420'],['카카오','035720'],['현대차','005380'],['LG에너지솔루션','373220'],['삼성바이오로직스','207940'],['기아','000270']].map(([n,c])=>`<a class="stock-link" href="https://finance.naver.com/item/main.naver?code=${c}" target="_blank">${n}<br><small style="color:#94a3b8">${c}</small></a>`).join('')}
+</div>
+<h3 style="font-size:.95rem;margin:20px 0 10px">🇺🇸 미국 주요 종목</h3>
+<div class="stocks-links">
+  ${['AAPL','MSFT','GOOGL','AMZN','NVDA','META','TSLA'].map(s=>`<a class="stock-link" href="https://finance.yahoo.com/quote/${s}" target="_blank">${s}</a>`).join('')}
+</div>
+<h3 style="font-size:.95rem;margin:20px 0 10px">📊 주요 지수</h3>
+<div class="stocks-links">
+  <a class="stock-link" href="https://finance.naver.com/sise/" target="_blank">KOSPI</a>
+  <a class="stock-link" href="https://finance.naver.com/sise/sise_index.naver?code=KOSDAQ" target="_blank">KOSDAQ</a>
+  <a class="stock-link" href="https://finance.yahoo.com/quote/%5EGSPC" target="_blank">S&P500</a>
+  <a class="stock-link" href="https://finance.yahoo.com/quote/%5EIXIC" target="_blank">NASDAQ</a>
+  <a class="stock-link" href="https://finance.yahoo.com/quote/%5EDJI" target="_blank">DOW</a>
+</div>
+<h3 style="font-size:.95rem;margin:20px 0 10px">🔗 금융 정보 사이트</h3>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+  <a href="https://finance.naver.com" target="_blank" class="btn btn-outline btn-sm">네이버 금융</a>
+  <a href="https://finance.yahoo.com" target="_blank" class="btn btn-outline btn-sm">Yahoo Finance</a>
+  <a href="https://www.bloomberg.com/markets" target="_blank" class="btn btn-outline btn-sm">Bloomberg</a>
+  <a href="https://www.investing.com/indices/world-indices" target="_blank" class="btn btn-outline btn-sm">Investing.com</a>
+</div></div>`;}
+
+// ======== NEWS ========
+function toolNewsHub(){return `<div class="tool-area">
+<h2>📰 뉴스 모음</h2>
+<div class="tabs">
+  <button class="tab-btn active" onclick="loadNews('all',this)">전체</button>
+  <button class="tab-btn" onclick="loadNews('it',this)">IT/테크</button>
+  <button class="tab-btn" onclick="loadNews('economy',this)">경제/금융</button>
+  <button class="tab-btn" onclick="loadNews('job',this)">취업/직장</button>
+  <button class="tab-btn" onclick="loadNews('realestate',this)">부동산</button>
+  <button class="tab-btn" onclick="loadNews('global',this)">글로벌</button>
+</div>
+<div id="news-list"><span class="spinner"></span></div>
+<div class="info-box" style="margin-top:16px">뉴스는 Google News RSS를 통해 제공됩니다. 빠른 로딩을 위해 rss2json API를 사용합니다.</div></div>`;}
+
+const newsUrls={
+  all:'https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko',
+  it:'https://news.google.com/rss/search?q=IT+기술+인공지능&hl=ko&gl=KR',
+  economy:'https://news.google.com/rss/search?q=경제+금융+주식&hl=ko&gl=KR',
+  job:'https://news.google.com/rss/search?q=취업+직장인+채용&hl=ko&gl=KR',
+  realestate:'https://news.google.com/rss/search?q=부동산+아파트+전세&hl=ko&gl=KR',
+  global:'https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko&topic=w'
+};
+async function loadNews(cat,btn){
+  if(btn){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+  const list=document.getElementById('news-list');
+  if(!list)return;
+  list.innerHTML='<div style="text-align:center;padding:20px"><span class="spinner"></span></div>';
+  try{
+    const url=newsUrls[cat]||newsUrls.all;
+    const api=`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}&count=20&api_key=i4drlhu2xxfecehv2zsgioifk8lo0u90ljwyc3uu`;
+    const res=await fetch(api);
+    const data=await res.json();
+    if(data.status!=='ok'||!data.items?.length){list.innerHTML='<p style="color:#94a3b8;padding:20px;text-align:center">뉴스를 불러올 수 없습니다. 잠시 후 다시 시도하세요.</p>';return;}
+    renderNewsCards(data.items);
+  }catch(e){list.innerHTML=`<p style="color:#ef4444;padding:20px">오류: ${e.message}</p>`;}
+}
+function renderNewsCards(items){
+  const list=document.getElementById('news-list');
+  if(!list)return;
+  function timeAgo(dateStr){
+    const diff=(Date.now()-new Date(dateStr).getTime())/1000;
+    if(diff<60)return '방금 전';
+    if(diff<3600)return Math.floor(diff/60)+'분 전';
+    if(diff<86400)return Math.floor(diff/3600)+'시간 전';
+    return Math.floor(diff/86400)+'일 전';
+  }
+  list.innerHTML=items.map(item=>`
+    <div class="news-card" onclick="window.open('${item.link}','_blank')">
+      <div class="news-title">${item.title||'제목 없음'}</div>
+      <div class="news-meta">
+        <span>📰 ${item.author||item.feed||'뉴스'}</span>
+        <span>⏰ ${timeAgo(item.pubDate)}</span>
+      </div>
+    </div>`).join('');
+}
+
+// ======== DESIGN TOOLS ========
+const palettes=[
+  {name:'딥 오션',colors:['#1A1A2E','#16213E','#0F3460','#E94560'],tags:['비즈니스','임팩트'],desc:'강렬한 네이비 톤으로 신뢰와 전문성을 표현'},
+  {name:'민트 프레시',colors:['#2EC4B6','#CBEFB1','#FFFFFF','#FF9F1C'],tags:['크리에이티브'],desc:'상쾌하고 활기찬 민트 계열 팔레트'},
+  {name:'모노 엘레강스',colors:['#0D0D0D','#3D3D3D','#BDBDBD','#F5F5F5'],tags:['비즈니스','모던'],desc:'흑백 그라데이션으로 세련된 모노크롬'},
+  {name:'선셋 코랄',colors:['#FF6B6B','#FFA07A','#FFD93D','#6BCB77'],tags:['따뜻한','활기'],desc:'노을빛 따뜻한 색감의 활기찬 팔레트'},
+  {name:'코발트 블루',colors:['#003F88','#0059A8','#4DA6FF','#E8F4FD'],tags:['비즈니스','신뢰'],desc:'전문적이고 신뢰감 있는 블루 계열'},
+  {name:'포레스트 그린',colors:['#1B4332','#2D6A4F','#52B788','#D8F3DC'],tags:['크리에이티브','자연'],desc:'자연에서 영감받은 싱그러운 그린 팔레트'},
+  {name:'퍼플 드림',colors:['#7400B8','#6930C3','#5E60CE','#48BFE3'],tags:['크리에이티브'],desc:'신비롭고 창의적인 퍼플에서 블루로'},
+  {name:'골드 럭셔리',colors:['#1A1A1A','#B8860B','#DAA520','#FFF8DC'],tags:['비즈니스','고급'],desc:'검정과 골드의 조합으로 럭셔리 표현'},
+  {name:'로즈 골드',colors:['#B76E79','#C9A96E','#E8D5B7','#F9F1F0'],tags:['따뜻한','우아'],desc:'부드럽고 우아한 로즈 골드 팔레트'},
+  {name:'스카이 드림',colors:['#0077B6','#00B4D8','#90E0EF','#CAF0F8'],tags:['차가운','신뢰'],desc:'맑은 하늘빛 블루 그라데이션'},
+  {name:'다크 모드',colors:['#121212','#1E1E1E','#2D2D2D','#BB86FC'],tags:['모던','테크'],desc:'모던 다크 테마에 보라색 포인트'},
+  {name:'베이지 모카',colors:['#4E3D38','#8B6453','#C4A882','#F5EFE6'],tags:['따뜻한'],desc:'따뜻하고 아늑한 커피색 팔레트'},
+  {name:'인디고 나이트',colors:['#03045E','#0077B6','#00B4D8','#CAF0F8'],tags:['차가운'],desc:'깊은 밤하늘에서 새벽빛으로'},
+  {name:'체리 블라섬',colors:['#FFCCD5','#FFB3C1','#FF85A1','#C9184A'],tags:['따뜻한'],desc:'벚꽃빛 핑크의 달콤한 팔레트'},
+  {name:'올리브 그린',colors:['#606C38','#283618','#FEFAE0','#DDA15E'],tags:['자연'],desc:'자연스러운 올리브와 베이지 조합'},
+  {name:'트로피컬',colors:['#06D6A0','#1B9AAA','#EF476F','#FFD166'],tags:['크리에이티브'],desc:'열대 분위기의 생동감 넘치는 팔레트'},
+  {name:'미드나잇 블루',colors:['#03045E','#023E8A','#0077B6','#90E0EF'],tags:['비즈니스'],desc:'깊고 신뢰감 있는 네이비 그라데이션'},
+  {name:'파스텔 드림',colors:['#FFD6FF','#E7C6FF','#C8B6FF','#B8C0FF'],tags:['크리에이티브'],desc:'부드럽고 몽환적인 파스텔 퍼플'},
+  {name:'테라코타',colors:['#6B4F4F','#B56576','#EFA8B8','#F9D4D4'],tags:['따뜻한'],desc:'따뜻한 테라코타와 핑크의 조화'},
+  {name:'네이비 골드',colors:['#14213D','#364F6B','#F5A623','#FDD835'],tags:['비즈니스','고급'],desc:'네이비와 골드의 고급스러운 조합'}
+];
+
+function toolPptColors(){return `<div class="tool-area">
+<h2>🎨 PPT 색상 조합</h2>
+<div class="tabs" id="palette-filters">
+  ${['전체','비즈니스','크리에이티브','모던','따뜻한','차가운','자연'].map(t=>`<button class="tab-btn ${t==='전체'?'active':''}" onclick="filterPalettes('${t}',this)">${t}</button>`).join('')}
+</div>
+<div id="palette-grid" class="palette-grid"></div></div>`;}
+
+function renderColorPalettes(filter){
+  const grid=document.getElementById('palette-grid');
+  if(!grid)return;
+  const filtered=filter==='전체'?palettes:palettes.filter(p=>p.tags.includes(filter));
+  grid.innerHTML=filtered.map(p=>`
+    <div class="palette-card">
+      <div class="palette-name">${p.name}</div>
+      <div class="palette-desc">${p.desc}</div>
+      <div class="palette-swatches">
+        ${p.colors.map(c=>`<div class="swatch" style="background:${c}" title="${c}" onclick="copyHex('${c}')"></div>`).join('')}
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+        ${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="copyPalette(${JSON.stringify(p.colors).replace(/"/g,"'")})">팔레트 복사</button>
+    </div>`).join('');
+}
+function filterPalettes(tag,btn){
+  document.querySelectorAll('#palette-filters .tab-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  renderColorPalettes(tag);
+}
+function copyHex(hex){
+  navigator.clipboard.writeText(hex).then(()=>{
+    const t=document.createElement('div');
+    t.textContent=`${hex} 복사됨!`;
+    t.style='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:8px 18px;border-radius:20px;font-size:.85rem;z-index:9999;animation:fadeIn .2s';
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(),1800);
+  });
+}
+function copyPalette(colors){
+  const arr=typeof colors==='string'?JSON.parse(colors.replace(/'/g,'"')):colors;
+  navigator.clipboard.writeText(arr.join(', ')).then(()=>{
+    const t=document.createElement('div');
+    t.textContent='팔레트 색상이 복사되었습니다!';
+    t.style='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:8px 18px;border-radius:20px;font-size:.85rem;z-index:9999;animation:fadeIn .2s';
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(),1800);
+  });
+}
+
+function toolPptTemplates(){return `<div class="tool-area">
+<h2>🖼️ PPT 템플릿 사이트</h2>
+<p style="font-size:.85rem;color:var(--text-muted);margin-bottom:16px">무료로 사용할 수 있는 PPT/프레젠테이션 템플릿 및 디자인 리소스 사이트 모음입니다.</p>
+<div class="template-grid">
+  ${[
+    {icon:'🎯',name:'Slidesgo',desc:'무료 구글슬라이드/파워포인트 템플릿 다수 제공',tags:['무료','PPT','Google Slides'],url:'https://slidesgo.com'},
+    {icon:'🎪',name:'SlidesCarnival',desc:'100% 무료, 상업용 가능한 PPT 템플릿',tags:['무료','상업용'],url:'https://slidescarnival.com'},
+    {icon:'🎨',name:'Canva',desc:'한국어 지원, 무료 템플릿 및 디자인 도구',tags:['무료','한국어'],url:'https://canva.com/ko_kr'},
+    {icon:'🇰🇷',name:'미리캔버스',desc:'한국형 무료 PPT 템플릿 플랫폼',tags:['무료','한국어','PPT'],url:'https://miricanvas.com'},
+    {icon:'🥭',name:'망고보드',desc:'한국형 디자인 플랫폼, 무료 PPT 템플릿 제공',tags:['무료','한국어'],url:'https://mangoboard.net'},
+    {icon:'📊',name:'Google Slides 테마',desc:'구글 공식 무료 슬라이드 테마',tags:['무료','Google'],url:'https://themes.google.com/slides'},
+    {icon:'📥',name:'Freeppt7',desc:'무료 PPT 템플릿 다운로드 사이트',tags:['무료','다운로드'],url:'https://freeppt7.com'},
+    {icon:'📋',name:'AllPPT',desc:'다양한 무료 PPT 템플릿 모음',tags:['무료','PPT'],url:'https://allppt.com'},
+    {icon:'⭐',name:'Flaticon',desc:'무료 벡터 아이콘 (PPT에 활용)',tags:['무료','아이콘'],url:'https://flaticon.com'},
+    {icon:'📷',name:'Unsplash',desc:'무료 고화질 사진 (PPT 배경으로 활용)',tags:['무료','사진'],url:'https://unsplash.com'},
+    {icon:'🎬',name:'Pexels',desc:'무료 사진 및 영상 (상업용 가능)',tags:['무료','사진','영상'],url:'https://pexels.com'},
+    {icon:'🔤',name:'눈누',desc:'무료 한글 폰트 모음 (PPT 폰트로 활용)',tags:['무료','한글','폰트'],url:'https://noonnu.cc'}
+  ].map(s=>`
+    <div class="template-card">
+      <div class="t-icon">${s.icon}</div>
+      <div class="t-name">${s.name}</div>
+      <div class="t-desc">${s.desc}</div>
+      <div style="margin-bottom:10px">${s.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      <a href="${s.url}" target="_blank" class="btn btn-sm">바로가기 →</a>
+    </div>`).join('')}
+</div></div>`;}
+
+// ======== UTILS ========
+function copyText(id){
+  const el=document.getElementById(id);
+  if(el){el.select();navigator.clipboard.writeText(el.value).catch(()=>document.execCommand('copy'));}
+}
+
+// ======== INIT ========
+document.addEventListener('DOMContentLoaded',()=>{
+  renderMarketWidget();
+  ucUpdateUnits();
+  const today=new Date().toISOString().split('T')[0];
+  renderDdList();
+  setTimeout(doColorConv,100);
+});
+
+// ======== PDF 병합 ========
+function toolPdfMerge(){return `<div class="tool-area">
+<h2>🔗 PDF 병합</h2>
+<p style="font-size:.85rem;color:var(--text-muted);margin-bottom:16px">여러 PDF 파일을 순서대로 하나의 PDF로 합칩니다. 파일 추가 후 드래그로 순서를 변경할 수 있습니다.</p>
+<div class="upload-area" onclick="document.getElementById('pm-input').click()">
+  📁 PDF 파일을 여러 개 선택하세요 (Ctrl+클릭으로 다중 선택)
+  <input type="file" id="pm-input" accept=".pdf" multiple style="display:none" onchange="pmAddFiles(this)">
+</div>
+<div id="pm-list" style="margin:12px 0"></div>
+<button class="btn" onclick="mergePdfs()" id="pm-btn" style="display:none">🔗 PDF 병합하기</button>
+<div id="pm-progress" style="display:none;margin-top:12px">
+  <div style="background:#e2e8f0;border-radius:8px;height:8px"><div id="pm-bar" style="background:var(--primary);height:8px;border-radius:8px;width:0%;transition:width .3s"></div></div>
+  <div id="pm-status" style="font-size:.85rem;color:var(--text-muted);margin-top:6px">처리 중...</div>
+</div>
+<div id="pm-result"></div></div>`;}
+
+let pmFiles=[];
+function pmAddFiles(inp){
+  pmFiles=[...pmFiles,...Array.from(inp.files)];
+  renderPmList();
+}
+function renderPmList(){
+  const el=document.getElementById('pm-list');
+  if(!pmFiles.length){el.innerHTML='';document.getElementById('pm-btn').style.display='none';return;}
+  el.innerHTML='<div style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">📋 파일 목록 (드래그하여 순서 변경):</div>'+
+    pmFiles.map((f,i)=>`<div class="pm-file-item" draggable="true" data-idx="${i}" ondragstart="pmDragStart(event,${i})" ondragover="pmDragOver(event)" ondrop="pmDrop(event,${i})" style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;cursor:grab">
+      <span style="font-size:.8rem;color:var(--text-muted);min-width:20px">${i+1}</span>
+      <span style="flex:1;font-size:.9rem">📄 ${f.name}</span>
+      <span style="font-size:.8rem;color:var(--text-muted)">${(f.size/1024).toFixed(0)}KB</span>
+      <button onclick="pmRemove(${i})" style="background:none;border:none;cursor:pointer;font-size:1rem;color:#ef4444">✕</button>
+    </div>`).join('');
+  document.getElementById('pm-btn').style.display='block';
+}
+function pmRemove(i){pmFiles.splice(i,1);renderPmList();}
+let pmDragIdx=null;
+function pmDragStart(e,i){pmDragIdx=i;e.dataTransfer.effectAllowed='move';}
+function pmDragOver(e){e.preventDefault();e.dataTransfer.dropEffect='move';}
+function pmDrop(e,i){
+  e.preventDefault();
+  if(pmDragIdx===null||pmDragIdx===i)return;
+  const tmp=pmFiles[pmDragIdx];pmFiles[pmDragIdx]=pmFiles[i];pmFiles[i]=tmp;
+  pmDragIdx=null;renderPmList();
+}
+async function mergePdfs(){
+  if(!pmFiles.length)return;
+  const prog=document.getElementById('pm-progress');
+  const bar=document.getElementById('pm-bar');
+  const status=document.getElementById('pm-status');
+  const result=document.getElementById('pm-result');
+  prog.style.display='block';result.innerHTML='';
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'p',unit:'mm',format:'a4'});
+  let first=true,total=0,done=0;
+  const buffers=[];
+  for(const f of pmFiles){
+    const ab=await f.arrayBuffer();
+    buffers.push(ab);
+    const pdf=await pdfjsLib.getDocument({data:new Uint8Array(ab)}).promise;
+    total+=pdf.numPages;
+  }
+  for(let fi=0;fi<pmFiles.length;fi++){
+    const pdf=await pdfjsLib.getDocument({data:new Uint8Array(buffers[fi])}).promise;
+    for(let p=1;p<=pdf.numPages;p++){
+      const page=await pdf.getPage(p);
+      const vp=page.getViewport({scale:2});
+      const cv=document.createElement('canvas');
+      cv.width=vp.width;cv.height=vp.height;
+      await page.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;
+      const img=cv.toDataURL('image/jpeg',0.85);
+      const ratio=vp.width/vp.height;
+      const w=210,h=w/ratio;
+      if(!first)doc.addPage();
+      doc.addImage(img,'JPEG',0,0,w,h);
+      first=false;done++;
+      bar.style.width=(done/total*100)+'%';
+      status.textContent=`처리 중... (${done}/${total} 페이지)`;
+      await new Promise(r=>setTimeout(r,0));
+    }
+  }
+  doc.save('merged.pdf');
+  prog.style.display='none';
+  result.innerHTML='<div style="background:#f0fdf4;border:1px solid #bbf7d0;padding:12px 16px;border-radius:8px;color:#15803d;font-size:.9rem">✅ PDF 병합 완료! 다운로드가 시작됩니다.</div>';
+}
+
+// ======== PDF 분해 ========
+function toolPdfSplit(){return `<div class="tool-area">
+<h2>✂️ PDF 분해</h2>
+<p style="font-size:.85rem;color:var(--text-muted);margin-bottom:16px">PDF를 페이지별로 분리하거나 범위를 지정하여 여러 파일로 저장합니다.</p>
+<div class="upload-area" onclick="document.getElementById('ps-input').click()">
+  📁 분해할 PDF 파일 선택
+  <input type="file" id="ps-input" accept=".pdf" style="display:none" onchange="psLoadFile(this)">
+</div>
+<div id="ps-info" style="display:none;margin:12px 0">
+  <div style="padding:10px 14px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;font-size:.9rem">
+    📄 <span id="ps-fname"></span> · <span id="ps-pages"></span>페이지
+  </div>
+  <div style="margin-top:12px">
+    <label style="font-size:.85rem;font-weight:600">분해 방식</label>
+    <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap">
+      <button class="btn" id="ps-mode-all" onclick="psSwitchMode('all')" style="font-size:.85rem">모든 페이지 개별 분리</button>
+      <button class="btn btn-outline" id="ps-mode-range" onclick="psSwitchMode('range')" style="font-size:.85rem">범위 지정 분리</button>
+    </div>
+  </div>
+  <div id="ps-range-area" style="display:none;margin-top:12px">
+    <label style="font-size:.85rem;font-weight:600">범위 입력 <span style="font-weight:400;color:var(--text-muted)">(예: 1-3, 4-6, 7)</span></label>
+    <input type="text" id="ps-range-input" placeholder="1-3, 4-6, 7" style="width:100%;margin-top:6px;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:.9rem;box-sizing:border-box">
+  </div>
+  <button class="btn" onclick="splitPdf()" style="margin-top:12px">✂️ PDF 분해하기</button>
+</div>
+<div id="ps-progress" style="display:none;margin-top:12px">
+  <div style="background:#e2e8f0;border-radius:8px;height:8px"><div id="ps-bar" style="background:var(--primary);height:8px;border-radius:8px;width:0%;transition:width .3s"></div></div>
+  <div id="ps-status" style="font-size:.85rem;color:var(--text-muted);margin-top:6px">처리 중...</div>
+</div>
+<div id="ps-result"></div></div>`;}
+
+let psData=null,psTotalPages=0,psMode='all';
+async function psLoadFile(inp){
+  const f=inp.files[0];if(!f)return;
+  psData=await f.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:new Uint8Array(psData)}).promise;
+  psTotalPages=pdf.numPages;
+  document.getElementById('ps-fname').textContent=f.name;
+  document.getElementById('ps-pages').textContent=psTotalPages;
+  document.getElementById('ps-info').style.display='block';
+}
+function psSwitchMode(m){
+  psMode=m;
+  document.getElementById('ps-mode-all').className=m==='all'?'btn':'btn btn-outline';
+  document.getElementById('ps-mode-range').className=m==='range'?'btn':'btn btn-outline';
+  document.getElementById('ps-range-area').style.display=m==='range'?'block':'none';
+}
+async function splitPdf(){
+  if(!psData)return;
+  const prog=document.getElementById('ps-progress');
+  const bar=document.getElementById('ps-bar');
+  const status=document.getElementById('ps-status');
+  const result=document.getElementById('ps-result');
+  prog.style.display='block';result.innerHTML='';
+  const {jsPDF}=window.jspdf;
+  let ranges=[];
+  if(psMode==='all'){
+    for(let i=1;i<=psTotalPages;i++)ranges.push([i,i]);
+  } else {
+    const inp=document.getElementById('ps-range-input').value;
+    for(const part of inp.split(',')){
+      const t=part.trim();if(!t)continue;
+      if(t.includes('-')){
+        const [a,b]=t.split('-').map(Number);
+        if(a>0&&b>=a&&b<=psTotalPages)ranges.push([a,b]);
+      } else {
+        const n=Number(t);
+        if(n>0&&n<=psTotalPages)ranges.push([n,n]);
+      }
+    }
+    if(!ranges.length){result.innerHTML='<div style="color:#ef4444;font-size:.9rem">❌ 유효한 범위를 입력해주세요.</div>';prog.style.display='none';return;}
+  }
+  const pdf=await pdfjsLib.getDocument({data:new Uint8Array(psData)}).promise;
+  for(let ri=0;ri<ranges.length;ri++){
+    const [from,to]=ranges[ri];
+    const doc=new jsPDF({orientation:'p',unit:'mm',format:'a4'});
+    let firstPage=true;
+    for(let p=from;p<=to;p++){
+      const page=await pdf.getPage(p);
+      const vp=page.getViewport({scale:2});
+      const cv=document.createElement('canvas');
+      cv.width=vp.width;cv.height=vp.height;
+      await page.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;
+      const img=cv.toDataURL('image/jpeg',0.85);
+      const ratio=vp.width/vp.height;
+      const w=210,h=w/ratio;
+      if(!firstPage)doc.addPage();
+      doc.addImage(img,'JPEG',0,0,w,h);
+      firstPage=false;
+    }
+    const fname=from===to?`page_${from}.pdf`:`pages_${from}-${to}.pdf`;
+    doc.save(fname);
+    bar.style.width=((ri+1)/ranges.length*100)+'%';
+    status.textContent=`처리 중... (${ri+1}/${ranges.length}개 파일)`;
+    await new Promise(r=>setTimeout(r,200));
+  }
+  prog.style.display='none';
+  result.innerHTML=`<div style="background:#f0fdf4;border:1px solid #bbf7d0;padding:12px 16px;border-radius:8px;color:#15803d;font-size:.9rem">✅ ${ranges.length}개 파일로 분해 완료! 다운로드가 시작됩니다.</div>`;
+}
+</script>
+</body>
+</html>
