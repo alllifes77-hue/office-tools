@@ -64,6 +64,20 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .pb-desc{font-size:.75rem;color:var(--text-muted);line-height:1.4}
 .pb-desc strong{color:var(--text)}
 .pb-cta{font-size:.78rem;font-weight:600;color:var(--primary);white-space:nowrap;flex-shrink:0}
+.pb-disclosure{font-size:.68rem;font-weight:400;color:var(--text-muted);margin-left:8px}
+/* 툴 페이지 하단 배너 */
+#tool-partner-banner{margin-top:28px;padding-top:20px;border-top:1px solid var(--border)}
+.tpb-label{font-size:.75rem;font-weight:600;color:var(--text-muted);margin-bottom:10px;letter-spacing:.03em}
+.tpb-disclosure{font-size:.68rem;font-weight:400;color:#94a3b8;margin-left:6px}
+.tpb-cards{display:flex;flex-direction:column;gap:8px}
+.tpb-card{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;text-decoration:none;transition:transform .15s,box-shadow .15s;border:1px solid transparent}
+.tpb-card:hover{transform:translateY(-1px);box-shadow:0 3px 12px rgba(0,0,0,.08)}
+.tpb-udemy{background:linear-gradient(135deg,#a435f00d,#a435f018);border-color:#a435f030}
+.tpb-nord{background:linear-gradient(135deg,#4687ff0d,#4687ff18);border-color:#4687ff30}
+.tpb-icon{font-size:1.2rem;flex-shrink:0}
+.tpb-text{flex:1;font-size:.82rem;color:var(--text-muted);line-height:1.4}
+.tpb-text strong{color:var(--text)}
+.tpb-btn{font-size:.78rem;font-weight:600;color:var(--primary);white-space:nowrap;flex-shrink:0}
 .cat-card{background:var(--card-bg);border-radius:var(--radius);padding:22px 18px;cursor:pointer;border:1px solid var(--border);border-top-width:4px;transition:transform .2s,box-shadow .2s;box-shadow:var(--shadow)}
 .cat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
 .cat-card .cat-icon{font-size:2rem;margin-bottom:10px}
@@ -157,6 +171,8 @@ th{background:#f8fafc;font-weight:600}
 @media(max-width:480px){
   .pb-cards{grid-template-columns:1fr}
   .pb-cta{display:none}
+  .tpb-btn{display:none}
+  .pb-disclosure,.tpb-disclosure{display:none}
   .topbar{padding:10px 14px}
   .topbar-title{font-size:.92rem}
   .topbar-site{font-size:.7rem}
@@ -219,7 +235,7 @@ th{background:#f8fafc;font-weight:600}
 
   <!-- 파트너 추천 배너 -->
   <div id="partner-banner">
-    <div class="pb-label">💡 직장인 추천 서비스</div>
+    <div class="pb-label">💡 직장인 추천 서비스 <span class="pb-disclosure">※ 제휴 마케팅 링크 포함 · 구매 시 소정의 수수료가 발생할 수 있습니다</span></div>
     <div class="pb-cards">
       <a href="https://lase.kr/click.php?m=udemy&a=A100703378&l=0000" target="_blank" rel="noopener" class="pb-card pb-udemy">
         <div class="pb-icon">🎓</div>
@@ -355,6 +371,22 @@ th{background:#f8fafc;font-weight:600}
     <span onclick="goHome()">홈</span> › <span id="tool-breadcrumb-cat" style="cursor:pointer" onclick="backToCategory()"></span> › <span id="tool-breadcrumb-name" style="color:var(--text);cursor:default"></span>
   </div>
   <div id="tool-content"></div>
+  <!-- 툴 페이지 하단 파트너 배너 -->
+  <div id="tool-partner-banner">
+    <div class="tpb-label">💡 직장인 추천 서비스 <span class="tpb-disclosure">※ 아래 링크는 제휴 마케팅 링크로, 구매 시 소정의 수수료가 발생할 수 있습니다</span></div>
+    <div class="tpb-cards">
+      <a href="https://lase.kr/click.php?m=udemy&a=A100703378&l=0000" target="_blank" rel="noopener" class="tpb-card tpb-udemy">
+        <span class="tpb-icon">🎓</span>
+        <span class="tpb-text"><strong>Udemy</strong> 업무 스킬 강의 최대 14% 할인 · 직장인 자기계발 No.1</span>
+        <span class="tpb-btn">수강하기 →</span>
+      </a>
+      <a href="https://bestmore.net/click.php?m=nordvpn2&a=A100703378" target="_blank" rel="noopener" class="tpb-card tpb-nord">
+        <span class="tpb-icon">🔒</span>
+        <span class="tpb-text"><strong>NordVPN</strong> 재택·출장 시 보안 필수 VPN 최대 32% 할인</span>
+        <span class="tpb-btn">시작하기 →</span>
+      </a>
+    </div>
+  </div>
 </div>
 </div>
 
